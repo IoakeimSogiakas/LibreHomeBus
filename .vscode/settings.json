@@ -1,0 +1,24 @@
+{
+  "platformio-ide.toolbar": [
+    {
+      "text": "$(home)",
+      "tooltip": "PlatformIO: Home",
+      "commands": "platformio-ide.showHome"
+    },
+    {
+      "text": "$(check)",
+      "tooltip": "PlatformIO: Build",
+      "commands": "platformio-ide.build"
+    },
+    {
+      "text": "$(arrow-right)",
+      "tooltip": "PlatformIO: Upload",
+      "commands": "platformio-ide.upload"
+    },
+    {
+      "text": "$(trash)",
+      "tooltip": "PlatformIO: Clean",
+      "commands": "platformio-ide.clean"
+    }
+  ]
+}
