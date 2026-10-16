@@ -69,7 +69,7 @@ Home Assistant's native Modbus integration relies on polling loops that are too 
 
 ### Hardware Notes
 * **Transceivers & Voltage:** The system is currently designed and bench-tested around a **5V logic level** using the SN65HVD3082E RS-485 transceiver. Any standard 3.3V or 5V transceiver (MAX485, clones, isolated modules) is compatible, provided the logic levels match your supply rail.
-* **Node Connections:** The CH32V003 slave firmware uses `PD5` for TX, `PD6` for RX, and `PD4` to control the transceiver's DE and /RE lines tied together[cite: 1].
+* **Node Connections:** The CH32V003 slave firmware uses `PD5` for TX, `PD6` for RX, and `PD4` to control the transceiver's DE and /RE lines tied together.
 * **Master Connections & Level Shifting:** The ESP requires three pins wired to its transceiver: UART TX, UART RX, and a GPIO driving DE and /RE. Since **all ESP32 and ESP8266 microcontrollers use 3.3V logic** (including ethernet gateways like the WT32-ETH01), if you are pairing the ESP with a 5V transceiver, you must step down the transceiver's 5V RX output to the ESP's 3.3V RX input using a simple voltage divider (e.g., a 2kΩ and 1kΩ resistor pair).
 
 ---
