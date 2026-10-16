@@ -1,196 +1,162 @@
 /*
- * CH32V003 Modbus RTU slave over RS-485, with automatic address discovery
- * -----------------------------------------------------------------------
- * One firmware, several device types ("flavors"). The flavor is chosen at
- * build time, and every chip tells the master which flavor it is by
- * reporting its flavor ID (FID) in register 0.
+ * Modbus RTU slave over RS-485 for the CH32V003, with automatic address
+ * discovery. Needs the ch32fun framework (config.h pulls it in).
  *
- * BUILD FLAGS (platformio.ini -> build_flags)
- *   -DFLAVOR=<n>      which device type to build (see "Flavor IDs" below)
- *   -DDEFAULT_ID=<n>  fixed Modbus address 1..247, or 0 (default) for
- *                     "unassigned": the chip stays quiet on normal traffic,
- *                     takes part in discovery, and remembers the address it
- *                     is given in flash.
+ * One firmware, several flavors picked at build time. Register 0 always
+ * holds the flavor ID (FID) so the master knows what it is talking to.
  *
- * REGISTER MAP (holding registers, read with function 03, write with 06)
- *   reg 0  FID, read-only (the same on every flavor)
- *   reg 1+ depends on the flavor, see the flavor blocks at the bottom
+ * Build flags:
+ *   -DFLAVOR=<n>      device type, see FID_* below
+ *   -DDEFAULT_ID=<n>  fixed address 1..247, or 0 for unassigned (default).
+ *                     Unassigned chips ignore normal traffic, join discovery,
+ *                     and keep the address they are given in flash.
  *
- * DISCOVERY (broadcast address 0, custom function codes, no Modbus replies)
- *   00 41 <UID:8> CRC        "Is there an unassigned chip with UID <= this?"
- *                            Those chips answer with one byte (0x55).
- *                            The master halves the range until it has
- *                            found the lowest UID.
- *   00 42 <UID:8> <addr> CRC Give the chip with this UID the address <addr>.
- *                            The chip saves it to flash.
- *   00 43 <UID:8> CRC        Make the chip with this UID forget its address.
- *
- * Needs the ch32fun framework (config.h pulls it in).
+ * Discovery (broadcast address 0, custom function codes, no Modbus replies):
+ *   00 41 <uid:8> crc          unassigned chips with UID <= this answer 0x55
+ *   00 42 <uid:8> <addr> crc   chip with this UID takes <addr> and saves it
+ *   00 43 <uid:8> crc          chip with this UID forgets its address
  */
 
 #include "config.h"
 
 
-/* ====================================================================== */
-/*  Protocol constants                                                     */
-/* ====================================================================== */
+/* ---- protocol ---------------------------------------------------------- */
 
-/* Function codes are the second byte of every Modbus message: they say what
- * the message wants. 0x03 and 0x06 are standard Modbus. Modbus sets aside
- * 65-72 (0x41-0x48) and 100-110 for custom use, so ours cannot clash with
- * any standard function. */
-#define FN_READ_HOLDING   0x03   /* standard: read registers                */
-#define FN_WRITE_SINGLE   0x06   /* standard: write one register            */
-#define FN_COMPARE        0x41   /* custom: "anyone with UID <= X?"         */
-#define FN_ASSIGN         0x42   /* custom: give the chip with this UID an address */
-#define FN_FORGET         0x43   /* custom: erase the chip's saved address  */
+#define FN_READ_HOLDING   0x03
+#define FN_WRITE_SINGLE   0x06
+/* 0x41-0x48 is reserved for user-defined functions in the Modbus spec,
+ * so these can't collide with anything standard. */
+#define FN_COMPARE        0x41
+#define FN_ASSIGN         0x42
+#define FN_FORGET         0x43
 
-/* Exception codes: the reason a request was refused. */
 #define EX_ILLEGAL_FUNCTION  0x01
 #define EX_ILLEGAL_ADDRESS   0x02
 #define EX_ILLEGAL_VALUE     0x03
 
-/* The single byte an unassigned chip sends to say "yes" during discovery.
- * 0x55 = binary 01010101. On the wire that is a bit pattern that flips every
- * bit, which is easy to recognise on a scope or logic analyser. The master
- * only checks "did any byte arrive", so the exact value is not important. */
+/* Master only checks that something arrived, the value doesn't matter. */
 #define REPLY_BYTE        0x55
 
-/* Exact message lengths in bytes: address + function + payload + 2 CRC. */
-#define LEN_REQUEST       8      /* standard read/write request             */
-#define LEN_COMPARE       12     /* 00 41 <UID:8> CRC                       */
-#define LEN_ASSIGN        13     /* 00 42 <UID:8> <addr> CRC                */
-#define LEN_FORGET        12     /* 00 43 <UID:8> CRC                       */
+/* Exact frame lengths: address + function + payload + 2 CRC bytes. */
+#define LEN_REQUEST       8
+#define LEN_COMPARE       12
+#define LEN_ASSIGN        13
+#define LEN_FORGET        12
 
-#define ID_BROADCAST      0      /* address 0 = everyone; also "unassigned" */
-#define ID_MAX            247    /* highest valid Modbus slave address      */
+#define ID_BROADCAST      0      /* also means "unassigned" */
+#define ID_MAX            247
 
 #ifndef DEFAULT_ID
-#define DEFAULT_ID        0      /* 0 = unassigned (see header comment)     */
+#define DEFAULT_ID        0
 #endif
 
 
-/* ====================================================================== */
-/*  Hardware settings                                                      */
-/* ====================================================================== */
+/* ---- hardware ---------------------------------------------------------- */
 
-#define BAUD         115200      /* serial speed, must match the master     */
-#define RX_BUF_SIZE  64          /* longest message we can hold             */
-#define DE_PIN       PD4         /* wired to the transceiver's DE and /RE   */
-                                 /* high = transmit, low = listen           */
+#define BAUD         115200
+#define RX_BUF_SIZE  64
+#define DE_PIN       PD4         /* DE and /RE tied together: high = send */
 
-/* A message ends after 3.5 character times of silence. Above 19200 baud
- * the Modbus standard fixes this at 1750 us. */
+/* A frame ends after 3.5 character times of silence. The spec fixes it at
+ * 1750 us for anything above 19200 baud. */
 #define T35_US       ((BAUD > 19200) ? 1750 : (38500000UL / BAUD))
-#define T35_TICKS    (T35_US * DELAY_US_TIME)   /* same time in timer ticks */
+#define T35_TICKS    (T35_US * DELAY_US_TIME)
 
 
-/* ====================================================================== */
-/*  Flavor IDs                                                             */
-/* ====================================================================== */
+/* ---- flavor IDs -------------------------------------------------------- */
 
-#define FID_NONE         0   /* no valid identity                           */
-#define FID_SWITCH       1   /* toggle switch input                         */
-#define FID_LIGHT_ONOFF  2   /* light, on/off only                          */
-#define FID_LIGHT_DIM    3   /* light, dimmable (PWM)                       */
-#define FID_TW_SMART     4   /* tunable white, SPI driver                   */
-#define FID_TW_PWM       5   /* tunable white, PWM into a plain driver      */
+#define FID_NONE         0
+#define FID_SWITCH       1
+#define FID_LIGHT_ONOFF  2
+#define FID_LIGHT_DIM    3
+#define FID_TW_SMART     4   /* tunable white, SPI driver (not done yet) */
+#define FID_TW_PWM       5
 
 #ifndef FLAVOR
-#define FLAVOR FID_NONE      /* an unflavored build reports FID 0 and does nothing */
+#define FLAVOR FID_NONE
 #endif
 
 
-/* ====================================================================== */
-/*  Register table                                                         */
-/* ====================================================================== */
+/* ---- registers --------------------------------------------------------- */
 
 #define NUM_REGS     4
 
-/* regs[] is the "notice board" the master reads. The Modbus code only reads
- * and writes this table; the flavor code at the bottom keeps it up to date. */
-static uint16_t regs[NUM_REGS] = { FLAVOR };    /* reg 0 = FID, the rest 0 */
+/* What the master sees. Flavor code keeps it in sync with the hardware. */
+static uint16_t regs[NUM_REGS] = { FLAVOR };
 
-/* Highest value a register accepts from a write. 0 means read-only, so
- * everything is read-only until a flavor makes a register writable. */
+/* Highest value a write may set. 0 = read-only. */
 static uint16_t reg_max[NUM_REGS];
 
 
-/* ====================================================================== */
-/*  Receive state                                                          */
-/* ====================================================================== */
+/* ---- state ------------------------------------------------------------- */
 
-static uint8_t  rx_buf[RX_BUF_SIZE];   /* bytes of the message being received */
-static uint8_t  rx_len;                /* how many bytes are in rx_buf        */
-static uint8_t  rx_overflow;           /* 1 = message too long, throw it away */
-static uint32_t rx_last;               /* SysTick time the last byte arrived  */
+static uint8_t  rx_buf[RX_BUF_SIZE];
+static uint8_t  rx_len;
+static uint8_t  rx_overflow;
+static uint32_t rx_last;               /* SysTick value at the last byte */
 
-static uint8_t  slave_id = DEFAULT_ID; /* our address; 0 = unassigned         */
-static uint64_t my_uid;                /* factory-unique chip ID              */
+static uint8_t  slave_id = DEFAULT_ID;
+static uint64_t my_uid;
 
 
-/* ====================================================================== */
-/*  UART and message framing                                               */
-/* ====================================================================== */
+/* ---- UART and framing -------------------------------------------------- */
 
 static void uart_init(void)
 {
     funGpioInitAll();
     RCC->APB2PCENR |= RCC_APB2Periph_USART1;
 
-    funPinMode(PD5, GPIO_CFGLR_OUT_10Mhz_AF_PP);   /* TX                    */
-    funPinMode(PD6, GPIO_CFGLR_IN_FLOAT);          /* RX                    */
-    funPinMode(DE_PIN, GPIO_CFGLR_OUT_10Mhz_PP);   /* DE and /RE together   */
-    funDigitalWrite(DE_PIN, FUN_LOW);              /* low = listen mode     */
+    funPinMode(PD5, GPIO_CFGLR_OUT_10Mhz_AF_PP);   /* TX */
+    funPinMode(PD6, GPIO_CFGLR_IN_FLOAT);          /* RX */
+    funPinMode(DE_PIN, GPIO_CFGLR_OUT_10Mhz_PP);
+    funDigitalWrite(DE_PIN, FUN_LOW);
 
     USART1->BRR   = (FUNCONF_SYSTEM_CORE_CLOCK + BAUD / 2) / BAUD;
     USART1->CTLR1 = USART_WordLength_8b | USART_Parity_No | USART_Mode_Tx | USART_Mode_Rx;
     USART1->CTLR2 = USART_StopBits_1;
     USART1->CTLR3 = USART_HardwareFlowControl_None;
-    USART1->CTLR1 |= CTLR1_UE_Set;                 /* switch the UART on    */
+    USART1->CTLR1 |= CTLR1_UE_Set;
 }
 
-/* Collects incoming bytes. Returns 1 when a complete message is waiting
- * in rx_buf. Call it as often as possible from the main loop. */
+/* Returns 1 when a complete frame is sitting in rx_buf. */
 static int frame_poll(void)
 {
     if (USART1->STATR & USART_FLAG_RXNE) {
-        uint8_t b = USART1->DATAR;                 /* reading DATAR clears RXNE */
+        uint8_t b = USART1->DATAR;
         rx_last = SysTick->CNT;
         if (rx_len < RX_BUF_SIZE) {
             rx_buf[rx_len++] = b;
         } else {
             rx_overflow = 1;
         }
-        /* The discovery question has a fixed length, so answer as soon as
-         * it is complete instead of waiting out the silence. This keeps
-         * the 64 questions of a search fast. */
+        /* The compare frame has a known length, so answer right away instead
+         * of waiting out the silence. A search is ~64 of these in a row. */
         if (rx_len == LEN_COMPARE && rx_buf[0] == ID_BROADCAST && rx_buf[1] == FN_COMPARE) {
             return 1;
         }
     } else if (rx_len && (uint32_t)(SysTick->CNT - rx_last) > T35_TICKS) {
-        return 1;                                  /* line went quiet: message over */
+        return 1;
     }
     return 0;
 }
 
 static void tx_frame(const uint8_t *p, uint8_t n)
 {
-    funDigitalWrite(DE_PIN, FUN_HIGH);              /* transmit mode        */
+    funDigitalWrite(DE_PIN, FUN_HIGH);
 
     for (uint8_t i = 0; i < n; i++) {
-        while (!(USART1->STATR & USART_FLAG_TXE));  /* wait for a free TX slot */
+        while (!(USART1->STATR & USART_FLAG_TXE));
         USART1->DATAR = p[i];
     }
 
-    while (!(USART1->STATR & USART_FLAG_TC));       /* wait until the last bit is out */
-    funDigitalWrite(DE_PIN, FUN_LOW);               /* back to listening    */
+    /* Wait for TC, not TXE: TXE goes high while the last byte is still
+     * shifting out, and dropping DE then would cut it off. */
+    while (!(USART1->STATR & USART_FLAG_TC));
+    funDigitalWrite(DE_PIN, FUN_LOW);
 }
 
 
-/* ====================================================================== */
-/*  CRC-16 (Modbus)                                                        */
-/* ====================================================================== */
+/* ---- CRC-16 ------------------------------------------------------------ */
 
 static uint16_t crc16(const uint8_t *p, uint8_t n)
 {
@@ -204,32 +170,29 @@ static uint16_t crc16(const uint8_t *p, uint8_t n)
     return crc;
 }
 
-/* Checks the CRC of the message currently in rx_buf. */
+/* CRC goes on the wire low byte first. */
 static int crc_good(void)
 {
-    uint16_t got = rx_buf[rx_len - 2] | (rx_buf[rx_len - 1] << 8);  /* CRC arrives low byte first */
+    uint16_t got = rx_buf[rx_len - 2] | (rx_buf[rx_len - 1] << 8);
     return got == crc16(rx_buf, rx_len - 2);
 }
 
 
-/* ====================================================================== */
-/*  Normal Modbus requests (addressed to us)                               */
-/* ====================================================================== */
+/* ---- normal Modbus requests -------------------------------------------- */
 
 static void send_exception(uint8_t func, uint8_t code)
 {
-    uint8_t r[5] = { slave_id, (uint8_t)(func | 0x80), code, 0, 0 };   /* 0x80 flags an error reply */
+    uint8_t r[5] = { slave_id, (uint8_t)(func | 0x80), code, 0, 0 };   /* 0x80 = error reply */
     uint16_t c = crc16(r, 3);
     r[3] = c & 0xFF;
     r[4] = c >> 8;
     tx_frame(r, 5);
 }
 
-/* Function 03: read one or more registers. */
 static void handle_read_holding(void)
 {
-    uint16_t addr  = (rx_buf[2] << 8) | rx_buf[3];   /* first register    */
-    uint16_t count = (rx_buf[4] << 8) | rx_buf[5];   /* how many          */
+    uint16_t addr  = (rx_buf[2] << 8) | rx_buf[3];
+    uint16_t count = (rx_buf[4] << 8) | rx_buf[5];
 
     if (count < 1 || count > 125) {
         send_exception(FN_READ_HOLDING, EX_ILLEGAL_VALUE);
@@ -240,32 +203,30 @@ static void handle_read_holding(void)
         return;
     }
 
-    /* Header (3 bytes) + register data (2 per register) + CRC (2 bytes) */
     uint8_t r[3 + 2 * NUM_REGS + 2];
     uint8_t n = 0;
 
     r[n++] = slave_id;
     r[n++] = FN_READ_HOLDING;
-    r[n++] = count * 2;                              /* byte count        */
+    r[n++] = count * 2;
 
     for (uint16_t i = 0; i < count; i++) {
-        r[n++] = regs[addr + i] >> 8;                /* high byte first   */
+        r[n++] = regs[addr + i] >> 8;
         r[n++] = regs[addr + i] & 0xFF;
     }
 
     uint16_t c = crc16(r, n);
-    r[n++] = c & 0xFF;                               /* CRC low byte first */
+    r[n++] = c & 0xFF;
     r[n++] = c >> 8;
     tx_frame(r, n);
 }
 
-/* Function 06: write one register. */
 static void handle_write_single(void)
 {
     uint16_t addr  = (rx_buf[2] << 8) | rx_buf[3];
     uint16_t value = (rx_buf[4] << 8) | rx_buf[5];
 
-    if (addr >= NUM_REGS || reg_max[addr] == 0) {    /* missing or read-only */
+    if (addr >= NUM_REGS || reg_max[addr] == 0) {
         send_exception(FN_WRITE_SINGLE, EX_ILLEGAL_ADDRESS);
         return;
     }
@@ -274,7 +235,7 @@ static void handle_write_single(void)
         return;
     }
     regs[addr] = value;
-    tx_frame(rx_buf, LEN_REQUEST);                   /* Modbus confirms a write by echoing the request */
+    tx_frame(rx_buf, LEN_REQUEST);     /* echoing the request is the ack */
 }
 
 static void handle_frame(void)
@@ -297,12 +258,9 @@ static void handle_frame(void)
 }
 
 
-/* ====================================================================== */
-/*  Chip UID                                                               */
-/* ====================================================================== */
+/* ---- chip UID ---------------------------------------------------------- */
 
-/* Reads 8 bytes as one number, first byte = most significant. This is the
- * order minichlink prints the UID in, and the order the master sends it. */
+/* Big-endian: same order minichlink prints the UID in and the master sends it. */
 static uint64_t be64(const uint8_t *p)
 {
     uint64_t v = 0;
@@ -312,64 +270,55 @@ static uint64_t be64(const uint8_t *p)
 
 static void uid_init(void)
 {
-    my_uid = be64((const uint8_t *)0x1FFFF7E8);   /* factory-programmed ID area */
+    my_uid = be64((const uint8_t *)0x1FFFF7E8);
 }
 
 
-/* ====================================================================== */
-/*  Remembering the address in flash                                       */
-/* ====================================================================== */
+/* ---- address storage in flash ------------------------------------------ */
 
-/* Flash can only be erased and written in whole pages (64 bytes in fast
- * mode), so the address gets a page of its own: the last one, which the
- * program does not use. The record is three words:
- *   word 0: magic number (marks the page as ours)
- *   word 1: the address
- *   word 2: the address with every bit flipped (catches corrupt data)
- * Reflashing the firmware leaves this page alone, so the address survives
- * updates. */
-#define ID_PAGE_ADDR  0x08003FC0UL     /* last 64-byte page of the 16 KB flash */
+/* Flash erases and writes in 64-byte pages, so the address gets the last
+ * page to itself. Record layout (32-bit words):
+ *   0: magic    1: address    2: address inverted (corruption check)
+ * Reflashing the firmware doesn't touch this page. */
+#define ID_PAGE_ADDR  0x08003FC0UL
 #define ID_MAGIC      0x4D4F4442UL
 
-/* Flash control register bits (CH32V003) */
-#define FL_BSY      (1u << 0)          /* STATR: flash is busy              */
-#define FL_STRT     (1u << 6)          /* start the erase / write           */
-#define FL_LOCK     (1u << 7)          /* normal lock                       */
-#define FL_FLOCK    (1u << 15)         /* fast-mode lock                    */
-#define FL_FTPG     (1u << 16)         /* fast page program mode            */
-#define FL_FTER     (1u << 17)         /* fast page erase mode              */
-#define FL_BUFLOAD  (1u << 18)         /* push one word into the page buffer */
-#define FL_BUFRST   (1u << 19)         /* empty the page buffer             */
+#define FL_BSY      (1u << 0)
+#define FL_STRT     (1u << 6)
+#define FL_LOCK     (1u << 7)
+#define FL_FLOCK    (1u << 15)
+#define FL_FTPG     (1u << 16)     /* fast page program */
+#define FL_FTER     (1u << 17)     /* fast page erase */
+#define FL_BUFLOAD  (1u << 18)
+#define FL_BUFRST   (1u << 19)
 
 static void flash_wait(void)
 {
     while (FLASH->STATR & FL_BSY);
 }
 
-/* Saves an address. id_save(0) erases it (0 is never accepted by id_load).
- * Takes a few milliseconds, during which the chip cannot receive. */
+/* id_save(0) clears the stored address. Blocks for a few ms and the chip
+ * can't receive in that time. */
 static void id_save(uint8_t id)
 {
     uint32_t page[16];
-    for (int i = 0; i < 16; i++) page[i] = 0xFFFFFFFF;   /* unused words stay blank */
+    for (int i = 0; i < 16; i++) page[i] = 0xFFFFFFFF;
     page[0] = ID_MAGIC;
     page[1] = id;
     page[2] = ~(uint32_t)id;
 
-    /* Unlock: flash only listens after two key values are written. */
+    /* unlock sequence from the reference manual */
     FLASH->KEYR     = 0x45670123;
     FLASH->KEYR     = 0xCDEF89AB;
     FLASH->MODEKEYR = 0x45670123;
     FLASH->MODEKEYR = 0xCDEF89AB;
 
-    /* 1. Erase the page. */
     FLASH->CTLR = FL_FTER;
     FLASH->ADDR = ID_PAGE_ADDR;
     FLASH->CTLR |= FL_STRT;
     flash_wait();
     FLASH->CTLR = 0;
 
-    /* 2. Write the page: fill the buffer word by word, then commit it. */
     FLASH->CTLR = FL_FTPG;
     FLASH->CTLR |= FL_BUFRST;
     flash_wait();
@@ -383,10 +332,10 @@ static void id_save(uint8_t id)
     flash_wait();
     FLASH->CTLR = 0;
 
-    FLASH->CTLR = FL_LOCK | FL_FLOCK;                    /* lock it again   */
+    FLASH->CTLR = FL_LOCK | FL_FLOCK;
 }
 
-/* Returns the saved address, or 0 if nothing valid is stored. */
+/* Returns 0 if nothing valid is stored. */
 static uint8_t id_load(void)
 {
     const volatile uint32_t *p = (const volatile uint32_t *)ID_PAGE_ADDR;
@@ -398,98 +347,88 @@ static uint8_t id_load(void)
 }
 
 
-/* ====================================================================== */
-/*  Discovery (broadcast messages)                                         */
-/* ====================================================================== */
+/* ---- discovery --------------------------------------------------------- */
 
 static void handle_broadcast(void)
 {
     switch (rx_buf[1]) {
     case FN_COMPARE:
-        /* Only unassigned chips take part. Answer if our UID is at or
-         * below the threshold the master sent. */
         if (rx_len == LEN_COMPARE && slave_id == ID_BROADCAST && my_uid <= be64(&rx_buf[2])) {
             uint8_t b = REPLY_BYTE;
             tx_frame(&b, 1);
         }
         break;
     case FN_ASSIGN:
-        /* Bytes 2-9 = UID, byte 10 = the new address. No reply: the
-         * master checks by reading register 0 at the new address. */
+        /* No reply. The master confirms by reading reg 0 at the new address. */
         if (rx_len == LEN_ASSIGN && be64(&rx_buf[2]) == my_uid &&
             rx_buf[10] >= 1 && rx_buf[10] <= ID_MAX) {
             slave_id = rx_buf[10];
-            id_save(slave_id);                    /* keep it through power loss */
+            id_save(slave_id);
         }
         break;
     case FN_FORGET:
         if (rx_len == LEN_FORGET && be64(&rx_buf[2]) == my_uid) {
-            slave_id = DEFAULT_ID;                /* back to unassigned */
-            id_save(0);                           /* erase the saved copy */
+            slave_id = DEFAULT_ID;
+            id_save(0);
         }
         break;
     default:
-        break;                                    /* broadcasts never get replies */
+        break;
     }
 }
 
 
-/* ====================================================================== */
-/*  Flavors: one block per device type                                     */
-/*                                                                         */
-/*  Each flavor provides:                                                  */
-/*    flavor_init()  set up pins/peripherals, declare its registers        */
-/*    flavor_poll()  called every pass of the main loop; turns register    */
-/*                   values into hardware actions (or the reverse)         */
-/* ====================================================================== */
+/* ---- flavors ----------------------------------------------------------- */
+/* Each flavor provides flavor_init() (pins, peripherals, register setup)
+ * and flavor_poll() (called every main loop pass, syncs regs and hardware). */
 
 #if FLAVOR == FID_SWITCH
-/* Toggle switch input.  reg 1: 1 = switch on, 0 = off (read-only) */
-#define SW_PIN        PC1      /* switch between this pin and ground */
+/* reg 1: switch state, 1 = on (read-only) */
+#define SW_PIN        PC1      /* switch to ground */
 #define REG_SW_STATE  1
-#define DEBOUNCE_MS   20       /* position must hold this long to be believed */
+#define DEBOUNCE_MS   20
 
-static uint8_t  sw_raw_last;   /* what the pin said on the previous pass */
-static uint8_t  sw_stable;     /* the position we currently believe      */
-static uint32_t sw_changed;    /* when the pin last moved                */
+static uint8_t  sw_raw_last;
+static uint8_t  sw_stable;
+static uint32_t sw_changed;
 
 static void flavor_init(void)
 {
-    funPinMode(SW_PIN, GPIO_CFGLR_IN_PUPD);              /* input with pull resistor   */
-    funDigitalWrite(SW_PIN, FUN_HIGH);                   /* in this mode, high = pull-up */
-    sw_raw_last = sw_stable = !funDigitalRead(SW_PIN);   /* read the position at power-up */
+    funPinMode(SW_PIN, GPIO_CFGLR_IN_PUPD);
+    funDigitalWrite(SW_PIN, FUN_HIGH);                   /* in this mode high = pull-up */
+    sw_raw_last = sw_stable = !funDigitalRead(SW_PIN);
     regs[REG_SW_STATE] = sw_stable;
 }
 
 static void flavor_poll(void)
 {
-    uint8_t raw = !funDigitalRead(SW_PIN);               /* closed switch pulls the pin low */
-    if (raw != sw_raw_last) {                            /* pin moved: restart the timer */
+    uint8_t raw = !funDigitalRead(SW_PIN);               /* closed = pin low */
+    if (raw != sw_raw_last) {
         sw_raw_last = raw;
         sw_changed  = SysTick->CNT;
     }
     else if (raw != sw_stable &&
              (uint32_t)(SysTick->CNT - sw_changed) > DEBOUNCE_MS * DELAY_MS_TIME) {
-        sw_stable = raw;                                 /* steady long enough: accept it */
+        sw_stable = raw;
         regs[REG_SW_STATE] = raw;
         debugln("switch %s", raw ? "ON" : "OFF");
     }
 }
 
 #elif FLAVOR == FID_LIGHT_ONOFF
-/* Light with on/off only.  reg 1: 0 = off, 1 = on (read/write) */
-#define LIGHT_PIN     PD2      /* output pin to the relay / driver            */
-#define LIGHT_ACTIVE  1        /* 1 = pin high turns the light on, 0 = pin low */
+/* reg 1: on/off (read/write) */
+#define LIGHT_PIN     PD2
+#define LIGHT_ACTIVE  1        /* pin level that turns the light on */
 #define REG_ONOFF     1
 
-static uint16_t last_state = 0xFFFF;   /* impossible value, so the first pass always applies */
+static uint16_t last_state = 0xFFFF;   /* impossible value, forces the first update */
 
 static void flavor_init(void)
 {
     funPinMode(LIGHT_PIN, GPIO_CFGLR_OUT_10Mhz_PP);
-    funDigitalWrite(LIGHT_PIN, !LIGHT_ACTIVE);           /* start off          */
+    funDigitalWrite(LIGHT_PIN, !LIGHT_ACTIVE);
     regs[REG_ONOFF] = 0;
-    reg_max[REG_ONOFF] = 1;                              /* writable: 0 or 1   */
+    reg_max[REG_ONOFF] = 1;
 }
 
 static void flavor_poll(void)
@@ -502,40 +441,39 @@ static void flavor_poll(void)
 }
 
 #elif FLAVOR == FID_LIGHT_DIM
-/* Dimmable light, PWM on TIM1 channel 1.
- *   reg 1: 0 = off, 1 = on          (read/write)
- *   reg 2: brightness 0..1000       (read/write, 1000 = full) */
-#define PWM_PIN       PD2
+/* reg 1: on/off (read/write)
+ * reg 2: brightness 0..1000 (read/write) */
+#define PWM_PIN       PD2      /* TIM1 CH1 */
 #define REG_ONOFF     1
 #define REG_BRT       2
 #define PWM_STEPS     1000
 
-static uint16_t last_duty = 0xFFFF;    /* impossible value, so the first pass always applies */
+static uint16_t last_duty = 0xFFFF;
 
 static void flavor_init(void)
 {
     RCC->APB2PCENR |= RCC_APB2Periph_TIM1;
-    funPinMode(PWM_PIN, GPIO_CFGLR_OUT_10Mhz_AF_PP);     /* hand the pin to the timer */
+    funPinMode(PWM_PIN, GPIO_CFGLR_OUT_10Mhz_AF_PP);
 
-    TIM1->PSC   = 0;                    /* no prescaler: timer runs at the full 48 MHz */
-    TIM1->ATRLR = PWM_STEPS - 1;        /* count 0..999, then restart: 48 MHz / 1000 = 48 kHz */
-    TIM1->CHCTLR1 |= TIM_OC1M_2 | TIM_OC1M_1 | TIM_OC1PE;   /* PWM mode 1, buffered duty value */
-    TIM1->CCER  |= TIM_CC1E;            /* channel 1 output on */
-    TIM1->BDTR  |= TIM_MOE;             /* main output enable (TIM1 needs this extra switch) */
-    TIM1->CH1CVR = 0;                   /* start dark */
-    TIM1->SWEVGR |= TIM_UG;             /* load the settings */
-    TIM1->CTLR1 |= TIM_CEN;             /* start counting */
+    TIM1->PSC   = 0;
+    TIM1->ATRLR = PWM_STEPS - 1;        /* 48 MHz / 1000 = 48 kHz */
+    TIM1->CHCTLR1 |= TIM_OC1M_2 | TIM_OC1M_1 | TIM_OC1PE;   /* PWM mode 1, buffered */
+    TIM1->CCER  |= TIM_CC1E;
+    TIM1->BDTR  |= TIM_MOE;             /* TIM1 outputs stay off without this */
+    TIM1->CH1CVR = 0;
+    TIM1->SWEVGR |= TIM_UG;
+    TIM1->CTLR1 |= TIM_CEN;
 
     regs[REG_ONOFF] = 0;
     regs[REG_BRT]   = PWM_STEPS;
-    reg_max[REG_ONOFF] = 1;             /* these two are writable */
+    reg_max[REG_ONOFF] = 1;
     reg_max[REG_BRT]   = PWM_STEPS;
 }
 
 static void flavor_poll(void)
 {
     uint16_t duty = regs[REG_ONOFF] ? regs[REG_BRT] : 0;
-    if (duty != last_duty) {            /* only touch the timer when something changed */
+    if (duty != last_duty) {
         last_duty = duty;
         TIM1->CH1CVR = duty;
         debugln("duty %u", duty);
@@ -543,35 +481,35 @@ static void flavor_poll(void)
 }
 
 #elif FLAVOR == FID_TW_PWM
-/* Tunable white: two PWM channels, each into an LED driver's DIM pin.
- *   reg 1: 0 = off, 1 = on          (read/write)
- *   reg 2: cold channel 0..1000     (read/write)
- *   reg 3: warm channel 0..1000     (read/write)
- * The master (ESPHome) works out the mix; this chip only sets two brightnesses. */
-#define PWM_COLD_PIN  PD2      /* TIM1 channel 1 */
-#define PWM_WARM_PIN  PC3      /* TIM1 channel 3 */
+/* Tunable white, one PWM per channel into the LED driver DIM pins.
+ * The master works out the cold/warm mix, this chip just sets the two levels.
+ * reg 1: on/off (read/write)
+ * reg 2: cold 0..1000 (read/write)
+ * reg 3: warm 0..1000 (read/write) */
+#define PWM_COLD_PIN  PD2      /* TIM1 CH1 */
+#define PWM_WARM_PIN  PC3      /* TIM1 CH3 */
 #define REG_ONOFF     1
 #define REG_COLD      2
 #define REG_WARM      3
 #define PWM_STEPS     1000
-#define PWM_PSC       47       /* PWM frequency = 48 MHz / (PSC+1) / STEPS = 1 kHz */
+#define PWM_PSC       47       /* 48 MHz / 48 / 1000 = 1 kHz */
 
-static uint16_t last_cold = 0xFFFF;    /* impossible values, so the first pass always applies */
+static uint16_t last_cold = 0xFFFF;
 static uint16_t last_warm = 0xFFFF;
 
 static void flavor_init(void)
 {
     RCC->APB2PCENR |= RCC_APB2Periph_TIM1;
-    funPinMode(PWM_COLD_PIN, GPIO_CFGLR_OUT_10Mhz_AF_PP);   /* hand both pins to the timer */
+    funPinMode(PWM_COLD_PIN, GPIO_CFGLR_OUT_10Mhz_AF_PP);
     funPinMode(PWM_WARM_PIN, GPIO_CFGLR_OUT_10Mhz_AF_PP);
 
     TIM1->PSC   = PWM_PSC;
     TIM1->ATRLR = PWM_STEPS - 1;
-    TIM1->CHCTLR1 |= TIM_OC1M_2 | TIM_OC1M_1 | TIM_OC1PE;   /* channel 1: PWM mode 1, buffered */
-    TIM1->CHCTLR2 |= TIM_OC3M_2 | TIM_OC3M_1 | TIM_OC3PE;   /* channel 3: same */
-    TIM1->CCER  |= TIM_CC1E | TIM_CC3E;                     /* both outputs on */
+    TIM1->CHCTLR1 |= TIM_OC1M_2 | TIM_OC1M_1 | TIM_OC1PE;
+    TIM1->CHCTLR2 |= TIM_OC3M_2 | TIM_OC3M_1 | TIM_OC3PE;
+    TIM1->CCER  |= TIM_CC1E | TIM_CC3E;
     TIM1->BDTR  |= TIM_MOE;
-    TIM1->CH1CVR = 0;                                       /* start dark */
+    TIM1->CH1CVR = 0;
     TIM1->CH3CVR = 0;
     TIM1->SWEVGR |= TIM_UG;
     TIM1->CTLR1 |= TIM_CEN;
@@ -598,15 +536,13 @@ static void flavor_poll(void)
 }
 
 #else
-/* FID_NONE, or a flavor that is not implemented yet: do nothing. */
+/* FID_NONE or not implemented yet */
 static void flavor_init(void) {}
 static void flavor_poll(void) {}
 #endif
 
 
-/* ====================================================================== */
-/*  Main                                                                   */
-/* ====================================================================== */
+/* ---- main -------------------------------------------------------------- */
 
 int main(void)
 {
@@ -615,7 +551,7 @@ int main(void)
     uart_init();
     uid_init();
 #if DEFAULT_ID == 0
-    slave_id = id_load();      /* unassigned build: use the saved address if there is one */
+    slave_id = id_load();
 #endif
     flavor_init();
     debugln("flavor %d, id %d, uid %08X%08X", FLAVOR, slave_id,
@@ -632,11 +568,11 @@ int main(void)
             } else if (!crc_good()) {
                 debugln("bad CRC");
             } else if (rx_buf[0] == ID_BROADCAST) {
-                handle_broadcast();                 /* no print here: it's too slow */
+                handle_broadcast();         /* no logging here, debugln is slow */
             } else if (rx_buf[0] != slave_id) {
                 debugln("not for me (id %d)", rx_buf[0]);
             } else {
-                handle_frame();                     /* reply on the bus before logging */
+                handle_frame();             /* reply first, log after */
                 debugln("handled func %02X", rx_buf[1]);
             }
 
