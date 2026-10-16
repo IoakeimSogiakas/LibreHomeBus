@@ -358,6 +358,8 @@ static void handle_broadcast(void)
             tx_frame(&b, 1);
         }
         break;
+#if DEFAULT_ID == 0
+    /* Fixed-ID builds don't take part in address assignment. */
     case FN_ASSIGN:
         /* No reply. The master confirms by reading reg 0 at the new address. */
         if (rx_len == LEN_ASSIGN && be64(&rx_buf[2]) == my_uid &&
@@ -372,6 +374,7 @@ static void handle_broadcast(void)
             id_save(0);
         }
         break;
+#endif
     default:
         break;
     }
