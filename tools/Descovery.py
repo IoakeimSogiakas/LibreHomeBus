@@ -56,6 +56,19 @@ def read_reg0(addr: int):
         return None
     return (r[3] << 8) | r[4]
 
+def address_taken(addr: int) -> bool:
+    s.reset_input_buffer()
+    s.write(frame(f"{addr:02X} 03 00 00 00 01"))
+    s.flush()
+    return len(s.read(7)) > 0     # any reply at all means the address is in use
+
+def forget(uid: int):
+    # Same shape as assign, minus the address byte (12-byte frame)
+    s.write(frame("00 43 " + uid.to_bytes(8, "big").hex(" ")))
+    s.flush()
+    time.sleep(0.05)
+
+
 # --- Main Discovery Loop ---
 next_addr = 1
 while True:
@@ -63,6 +76,13 @@ while True:
     if uid is None:
         print("no unassigned chips left")
         break
+
+    while next_addr <= 247 and address_taken(next_addr):
+        next_addr += 1
+    if next_addr > 247:
+        print("no free addresses")
+        break
+
     assign(uid, next_addr)
     print(f"found {uid:016X} -> address {next_addr}, reg 0 reads {read_reg0(next_addr)}")
     next_addr += 1
