@@ -1,7 +1,7 @@
 import time
 import serial
 
-PORTs           = "COM5"
+PORT           = "COM5"
 TARGET         = "wt32" #"host"
 HUB_NAME       = "hub-1"
 YAML_FILE      = "hub.yaml"
