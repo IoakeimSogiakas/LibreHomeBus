@@ -69,8 +69,9 @@
 #define FID_SWITCH       1
 #define FID_LIGHT_ONOFF  2
 #define FID_LIGHT_DIM    3
-#define FID_TW_SMART     4   /* tunable white, SPI driver (not done yet) */
+#define FID_TW_SMART     4   // tunable white, SPI driver (not done yet) */
 #define FID_TW_PWM       5
+#define FID_PLUG         6   //Not tested yet
 
 #ifndef FLAVOR
 #define FLAVOR FID_NONE
@@ -381,41 +382,108 @@ static void handle_broadcast(void)
 }
 
 
-/* ---- flavors ----------------------------------------------------------- */
-/* Each flavor provides flavor_init() (pins, peripherals, register setup)
- * and flavor_poll() (called every main loop pass, syncs regs and hardware). */
+/*
+ * Shared modules for FID_SWITCH and FID_PLUG.
+ * Implements software switch debouncing and auto-timeout LED control.
+ */
+#if FLAVOR == FID_SWITCH || FLAVOR == FID_PLUG
 
-#if FLAVOR == FID_SWITCH
-/* reg 1: switch state, 1 = on (read-only) */
-#define SW_PIN        PC1      /* switch to ground */
-#define REG_SW_STATE  1
-#define DEBOUNCE_MS   20
+#define SW_PIN          PC1
+#define DEBOUNCE_MS     20
+
+#define LED_PIN         PC2
+#define LED_ACTIVE      1
+#define LED_TIMEOUT_MS  30000UL
+#define REG_LED         2
 
 static uint8_t  sw_raw_last;
 static uint8_t  sw_stable;
 static uint32_t sw_changed;
 
-static void flavor_init(void)
+static void sw_init(void)
 {
     funPinMode(SW_PIN, GPIO_CFGLR_IN_PUPD);
-    funDigitalWrite(SW_PIN, FUN_HIGH);                   /* in this mode high = pull-up */
+    funDigitalWrite(SW_PIN, FUN_HIGH);
+    
+    /* Invert raw reading: active-low input */
     sw_raw_last = sw_stable = !funDigitalRead(SW_PIN);
-    regs[REG_SW_STATE] = sw_stable;
 }
 
-static void flavor_poll(void)
+/**
+ * @brief Polls switch state with non-blocking debounce filter.
+ * @return 1 on state edge transition, 0 otherwise.
+ */
+static int sw_poll(void)
 {
-    uint8_t raw = !funDigitalRead(SW_PIN);               /* closed = pin low */
+    uint8_t raw = !funDigitalRead(SW_PIN);
+    
     if (raw != sw_raw_last) {
         sw_raw_last = raw;
         sw_changed  = SysTick->CNT;
     }
     else if (raw != sw_stable &&
-             (uint32_t)(SysTick->CNT - sw_changed) > DEBOUNCE_MS * DELAY_MS_TIME) {
+             (uint32_t)(SysTick->CNT - sw_changed) > (DEBOUNCE_MS * DELAY_MS_TIME)) {
         sw_stable = raw;
-        regs[REG_SW_STATE] = raw;
-        debugln("switch %s", raw ? "ON" : "OFF");
+        return 1;
     }
+    
+    return 0;
+}
+
+static void led_init(void)
+{
+    funPinMode(LED_PIN, GPIO_CFGLR_OUT_10Mhz_PP);
+    funDigitalWrite(LED_PIN, !LED_ACTIVE);
+    
+    regs[REG_LED] = 0;
+    reg_max[REG_LED] = 1;
+}
+
+/**
+ * @brief Polls LED register state and handles safety auto-off timeout.
+ */
+static void led_poll(void)
+{
+    static uint16_t last;
+    static uint32_t on_since;
+
+    if (regs[REG_LED] != last) {
+        last = regs[REG_LED];
+        funDigitalWrite(LED_PIN, last ? LED_ACTIVE : !LED_ACTIVE);
+        on_since = SysTick->CNT;
+    }
+    /* Hardware watchdog fallback if master abandons ON state */
+    else if (last && (uint32_t)(SysTick->CNT - on_since) > (LED_TIMEOUT_MS * DELAY_MS_TIME)) {
+        regs[REG_LED] = 0;
+    }
+}
+
+#endif /* FLAVOR == FID_SWITCH || FLAVOR == FID_PLUG */
+
+
+/* ---- flavors ----------------------------------------------------------- */
+/* Each flavor provides flavor_init() (pins, peripherals, register setup)
+ * and flavor_poll() (called every main loop pass, syncs regs and hardware). */
+
+#if FLAVOR == FID_SWITCH
+/* reg 1: switch state, 1 = on (read-only)
+ * reg 2: identification LED (read/write), only the commissioning script uses it */
+#define REG_SW_STATE  1
+
+static void flavor_init(void)
+{
+    sw_init();
+    led_init();
+    regs[REG_SW_STATE] = sw_stable;
+}
+
+static void flavor_poll(void)
+{
+    if (sw_poll()) {
+        regs[REG_SW_STATE] = sw_stable;
+        debugln("switch %s", sw_stable ? "ON" : "OFF");
+    }
+    led_poll();
 }
 
 #elif FLAVOR == FID_LIGHT_ONOFF
@@ -538,6 +606,48 @@ static void flavor_poll(void)
     }
 }
 
+#elif FLAVOR == FID_PLUG
+
+/*
+ * Register Map:
+ *   REG_ONOFF (1): Relay state [0 = Open/OFF, 1 = Closed/ON]
+ *   REG_LED   (2): Ident LED (handled in shared module)
+ */
+#define RELAY_PIN     PD2
+#define RELAY_ACTIVE  1
+#define REG_ONOFF     1
+
+static uint16_t last_state = 0xFFFF;
+
+static void flavor_init(void)
+{
+    /* Initialize relay in safe/off state */
+    funPinMode(RELAY_PIN, GPIO_CFGLR_OUT_10Mhz_PP);
+    funDigitalWrite(RELAY_PIN, !RELAY_ACTIVE);
+
+    regs[REG_ONOFF] = 0;
+    reg_max[REG_ONOFF] = 1;
+
+    sw_init();
+    led_init();
+}
+
+static void flavor_poll(void)
+{
+    /* Toggle state on button press edge */
+    if (sw_poll() && sw_stable) {
+        regs[REG_ONOFF] = !regs[REG_ONOFF];
+    }
+
+    /* Synchronize physical relay output with register value */
+    if (regs[REG_ONOFF] != last_state) {
+        last_state = regs[REG_ONOFF];
+        funDigitalWrite(RELAY_PIN, last_state ? RELAY_ACTIVE : !RELAY_ACTIVE);
+        debugln("relay %s", last_state ? "ON" : "OFF");
+    }
+
+    led_poll();
+}
 #else
 /* FID_NONE or not implemented yet */
 static void flavor_init(void) {}
