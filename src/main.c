@@ -277,6 +277,7 @@ static void uid_init(void)
 
 /* ---- address storage in flash ------------------------------------------ */
 
+#if DEFAULT_ID == 0
 /* Flash erases and writes in 64-byte pages, so the address gets the last
  * page to itself. Record layout (32-bit words):
  *   0: magic    1: address    2: address inverted (corruption check)
@@ -347,7 +348,7 @@ static uint8_t id_load(void)
     return 0;
 }
 
-
+#endif /* DEFAULT_ID == 0 */
 /* ---- discovery --------------------------------------------------------- */
 
 static void handle_broadcast(void)
