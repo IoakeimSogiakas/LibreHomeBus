@@ -30,15 +30,16 @@ This repository represents an active engineering prototype. The codebase is func
 
 ## Flavor Status
 
-Each node personality is built with a specific Flavor ID (FID), exposed as a read-only value on Holding Register 0:
-
 | FID | Personality | Registers Used | Interface | Status |
 |:---:|:---|:---|:---|:---:|
-| 1 | Toggle Switch Input | Reg 1 (State) | Digital input, debounced with internal pull-up | Bench tested |
+| 1 | Toggle Switch Input | Reg 1 (State, read-only), Reg 2 (Identify LED) | Digital input, debounced with internal pull-up, PCB LED | Switch bench tested, LED untested |
 | 2 | Relay / On-Off Light | Reg 1 (On/Off) | Push-pull digital output | Bench tested |
-| 3 | Single-Channel Dimmer | Reg 1 (On/Off), Reg 2 (0–1000) | TIM1 CH1 PWM at 48 kHz | Bench tested |
+| 3 | Single-Channel Dimmer | Reg 1 (On/Off), Reg 2 (0..1000) | TIM1 CH1 PWM at 48 kHz | Bench tested |
 | 4 | Tunable White (SPI) | Pending | Dedicated SPI driver IC | Pending |
 | 5 | Tunable White (Dual PWM) | Reg 1 (On/Off), Reg 2 (Cold), Reg 3 (Warm) | TIM1 CH1 + CH3 PWM at 1 kHz | Bench tested |
+| 6 | Wall Plug | Reg 1 (On/Off), Reg 2 (Identify LED) | Relay output, local toggle switch (no register), PCB LED | Untested |
+
+Register 0 always holds the FID and is read-only. The identify LED register is only written by the commissioning script, and the node turns the LED off by itself after 30 s.
 
 FID 4 is planned for bench testing next.
 

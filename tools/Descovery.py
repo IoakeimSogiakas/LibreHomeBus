@@ -2,7 +2,7 @@ import time
 import serial
 
 PORT           = "COM5"
-TARGET         = "wt32" #"host"
+TARGET         = "host" #"wt32"
 HUB_NAME       = "hub-1"
 YAML_FILE      = "hub.yaml"
 HOST_UART_PORT = "/dev/ttyACM0"         # the same dongle as ESPHome sees it, host target only
