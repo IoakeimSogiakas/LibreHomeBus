@@ -81,18 +81,15 @@ New or unassigned nodes run with address 0 (`DEFAULT_ID = 0`). The discovery scr
 
 1. **Compare (`0x41`):** The master broadcasts a UID threshold. Any unassigned node whose factory UID is less than or equal to that number answers with a single confirmation byte (`0x55`).
 
-
 2. **Binary Search:** By halving the 64-bit UID search window based on whether anyone answers, the master isolates the lowest UID on the bus in roughly 64 queries.
-
 
 3. **Assign Address (`0x42`):** Once a single chip is isolated, the master sends a broadcast command with that specific UID and its new address (1–247).
 
-
 4. **Flash Storage:** The chip writes the new address into its last 64-byte flash page (`0x08003FC0`), so the address survives reboots and firmware reflashes.
-
 
 5. **Clear / Reset (`0x43`):** Broadcast command that tells a specific UID to erase its saved address and revert to unassigned mode.
 
+6. **Identification LED (switch and plug only):** The switch (FID 1) and plug (FID 6) flavors have an LED on `PC2`, controlled by register 2. Once a node has an address, the master can turn the LED on with a normal write (function `0x06`) so you can see which physical device got which address. It turns itself off after 30 seconds if the master forgets. The current discovery script doesn't use it yet, it's there for a later version.
 
 
 ---
