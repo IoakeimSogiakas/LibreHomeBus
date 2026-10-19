@@ -621,31 +621,24 @@ static uint16_t last_state = 0xFFFF;
 
 static void flavor_init(void)
 {
-    /* Initialize relay in safe/off state */
     funPinMode(RELAY_PIN, GPIO_CFGLR_OUT_10Mhz_PP);
     funDigitalWrite(RELAY_PIN, !RELAY_ACTIVE);
-
-    regs[REG_ONOFF] = 0;
     reg_max[REG_ONOFF] = 1;
-
     sw_init();
+    regs[REG_ONOFF] = sw_stable;
     led_init();
 }
 
 static void flavor_poll(void)
 {
-    /* Toggle state on button press edge */
-    if (sw_poll() && sw_stable) {
-        regs[REG_ONOFF] = !regs[REG_ONOFF];
+    if (sw_poll()) {
+        regs[REG_ONOFF] = sw_stable;
     }
-
-    /* Synchronize physical relay output with register value */
     if (regs[REG_ONOFF] != last_state) {
         last_state = regs[REG_ONOFF];
         funDigitalWrite(RELAY_PIN, last_state ? RELAY_ACTIVE : !RELAY_ACTIVE);
         debugln("relay %s", last_state ? "ON" : "OFF");
     }
-
     led_poll();
 }
 #else
