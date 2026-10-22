@@ -1,7 +1,7 @@
 import time
 import serial
 
-PORT = "COM5"
+PORT = "COM3"
 
 EXCEPTIONS = {1: "illegal function",
               2: "illegal address or read-only register",

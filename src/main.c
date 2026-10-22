@@ -24,13 +24,13 @@ int main(void)
             if (rx_overflow) {
                 debugln("overflow, dropped");
             } else if (rx_len < 4) {
-                debugln("too short (%d bytes)", rx_len);
+                busln("too short (%d bytes)", rx_len);
             } else if (!crc_good()) {
-                debugln("bad CRC");
+                busln("bad CRC");
             } else if (rx_buf[0] == ID_BROADCAST) {
                 handle_broadcast();         /* no logging here, debugln is slow and causes errors maybe issue with DEBUGPRINTF */
             } else if (rx_buf[0] != slave_id) {
-                debugln("not for me (id %d)", rx_buf[0]);
+                busln("not for me (id %d)", rx_buf[0]);
             } else {
                 handle_frame();             /* reply first, log after */
                 debugln("handled func %02X", rx_buf[1]);

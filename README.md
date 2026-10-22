@@ -91,7 +91,6 @@ New or unassigned nodes run with address 0 (`DEFAULT_ID = 0`). The discovery scr
 
 6. **Identification LED (switch and plug only):** The switch (FID 1) and plug (FID 6) flavors have an LED on `PC2`, controlled by register 2. Once a node has an address, the master can turn the LED on with a normal write (function `0x06`) so you can see which physical device got which address. It turns itself off after 30 seconds if the master forgets. The current discovery script doesn't use it yet, it's there for a later version.
 
-
 ---
 
 ## License

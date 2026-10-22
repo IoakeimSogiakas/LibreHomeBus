@@ -14,6 +14,13 @@
     #define debugln(...)  do {} while(0)
 #endif
 
+#define DEBUG_BUS 0     /* 1 = log every frame on the bus, slows the node down */
+#if DEBUG_BUS
+    #define busln(...)  debugln(__VA_ARGS__)
+#else
+    #define busln(...)  do {} while(0)
+#endif
+
 #ifndef DEFAULT_ID
 #define DEFAULT_ID        0
 #endif

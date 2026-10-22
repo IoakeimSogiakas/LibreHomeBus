@@ -1,11 +1,11 @@
 import time
 import serial
 
-PORT           = "COM5"
+PORT           = "COM3"
 TARGET         = "host" #"wt32"
 HUB_NAME       = "hub-1"
 YAML_FILE      = "hub.yaml"
-HOST_UART_PORT = "/dev/ttyACM0"         # the same dongle as ESPHome sees it, host target only
+HOST_UART_PORT = "/dev/ttyUSB0" #real hardware now!
 SCAN_TIMEOUT   = 0.03
 COLD_K, WARM_K = 6500, 2700
 
@@ -36,26 +36,34 @@ def frame(hexstr: str, bad: bool = False) -> bytes:
     return out
 
 
-def anyone_answers(threshold: int) -> bool:
-    s.reset_input_buffer()
-    s.write(frame("00 41 " + threshold.to_bytes(8, "big").hex(" ")))
-    s.flush()
-    return len(s.read(1)) > 0
+def anyone_answers(threshold: int, tries: int = 3) -> bool:
+    for _ in range(tries):
+        s.reset_input_buffer()
+        s.write(frame("00 41 " + threshold.to_bytes(8, "big").hex(" ")))
+        s.flush()
+        if s.read(1):
+            return True
+        time.sleep(0.005)
+    return False
 
 
 def find_lowest_unassigned():
     if not anyone_answers(MAX_UID):
         return None
-    low, high = 0, MAX_UID
-    while low < high:
-        mid = (low + high) // 2
-        if anyone_answers(mid):
-            high = mid
-        else:
-            low = mid + 1
-        time.sleep(0.005)
-    return low
-
+    for _ in range(3):
+        low, high = 0, MAX_UID
+        while low < high:
+            mid = (low + high) // 2
+            if anyone_answers(mid):
+                high = mid
+            else:
+                low = mid + 1
+            time.sleep(0.005)
+        # the lowest UID must answer, and the number just below it must not
+        if anyone_answers(low) and (low == 0 or not anyone_answers(low - 1)):
+            return low
+        print("search gave an inconsistent result, trying again")
+    return None
 
 def assign(uid: int, addr: int):
     s.write(frame("00 42 " + uid.to_bytes(8, "big").hex(" ") + f" {addr:02X}"))
