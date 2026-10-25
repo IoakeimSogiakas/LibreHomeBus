@@ -1,0 +1,4 @@
+(fp_lib_table
+	(version 7)
+	(lib (name "Modbus FID4 FootPrints") (type "KiCad") (uri "${KIPRJMOD}/libraries/ModbusFID4FootPrints.pretty") (options "") (descr ""))
+)

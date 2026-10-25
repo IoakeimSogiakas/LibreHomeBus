@@ -122,6 +122,9 @@ New or unassigned nodes run with address 0 (`DEFAULT_ID = 0`). The discovery scr
 * **Real ESP master:** Move off the WSL host build and recheck latency, including the Home Assistant path. (this will probally happen in the next week)
 * **PCB testing:** Prototype boards on the 48V rail. Planned for a few months from now.
 
-## License
+## Licensing
 
-This project is licensed under the **GNU General Public License v3.0 (GPL-3.0)**. Refer to the `LICENSE` file for full terms and conditions.
+This project is dual-licensed to cover both hardware designs and software/firmware components:
+
+* **Firmware & Software Tools:** Licensed under [GNU General Public License v3.0 (GPL-3.0)](LICENSE).
+* **Hardware (KiCad Schematics, PCB Layouts, & Libraries):** Licensed under [CERN-OHL-S v2 (Strong Reciprocal)](LICENSE-HARDWARE).

@@ -1,8 +1,35 @@
-.pio
-.vscode/.browse.c_cpp.db*
-.vscode/c_cpp_properties.json
-.vscode/launch.json
-.vscode/ipch
+# PlatformIO & IDE
+
+.pio/
+.vscode/*
+!.vscode/tasks.json
+!.vscode/launch.json
 *.yaml
 *.py.bak
 *(DEPRICATED)*
+
+# KiCad Build & Local Files and auto-backup folders
+
+# KiCad auto-backup folders 
+*-backups/
+
+# Local project user settings & lock files
+*.kicad_prl
+*.lck
+
+# Auto-save & backup files
+_autosave-*
+*.kicad_sch-bak
+*.kicad_pcb-bak
+*-bak
+*.bak
+*.tmp
+
+# KiCad footprint library cache & netlists
+fp-info-cache
+*.net
+*.xml
+*.rpt
+# OS metadata
+.DS_Store
+Thumbs.db
