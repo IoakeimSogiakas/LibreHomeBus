@@ -1,4 +1,16 @@
 {
+  "security.workspace.trust.untrustedFiles": "open",
+  "actionButtons": {
+    "defaultColor": "#ffffff",
+    "commands": [
+      {
+        "name": "$(terminal) Minichlink Debug Terminal",
+        "color": "#ffffff",
+        "command": "& \"$env:USERPROFILE\\.platformio\\packages\\tool-minichlink\\minichlink.exe\" -T",
+        "tooltip": "Click to run Minichlink Terminal"
+      }
+    ]
+  },
   "platformio-ide.toolbar": [
     {
       "text": "$(home)",

@@ -1,16 +1,16 @@
-# PlatformIO & IDE
-
+# ==============================================================================
+# PlatformIO & IDE Settings
+# ==============================================================================
 .pio/
 .vscode/*
-!.vscode/tasks.json
-!.vscode/launch.json
+!.vscode/settings.json
 *.yaml
-*.py.bak
-*(DEPRICATED)*
+*.bak
 
-# KiCad Build & Local Files and auto-backup folders
-
-# KiCad auto-backup folders 
+# ==============================================================================
+# KiCad Build, Local & Backup Files
+# ==============================================================================
+# Auto-backup folders
 *-backups/
 
 # Local project user settings & lock files
@@ -30,6 +30,17 @@ fp-info-cache
 *.net
 *.xml
 *.rpt
-# OS metadata
+
+# ==============================================================================
+# Syncthing Files & Folders
+# ==============================================================================
+.stfolder/
+.stversions/
+.syncthing*
+*.tmp
+
+# ==============================================================================
+# OS Metadata
+# ==============================================================================
 .DS_Store
 Thumbs.db
