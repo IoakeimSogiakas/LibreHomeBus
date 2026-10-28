@@ -1,0 +1,7 @@
+*.lck
+*-backups/
+_autosave-*
+*.tmp
+*.bak
+fp-info-cache
+.git/

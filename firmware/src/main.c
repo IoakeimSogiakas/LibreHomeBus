@@ -22,7 +22,7 @@ int main(void)
 
         if (frame_poll()) {
             if (rx_overflow) {
-                debugln("overflow, dropped");
+                busln("overflow, dropped");
             } else if (rx_len < 4) {
                 busln("too short (%d bytes)", rx_len);
             } else if (!crc_good()) {

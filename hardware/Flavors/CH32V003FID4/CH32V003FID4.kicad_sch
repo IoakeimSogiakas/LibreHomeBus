@@ -828,338 +828,6 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "Device:D_Schottky"
-			(pin_numbers
-				(hide yes)
-			)
-			(pin_names
-				(offset 1.016)
-				(hide yes)
-			)
-			(exclude_from_sim no)
-			(in_bom yes)
-			(on_board yes)
-			(in_pos_files yes)
-			(duplicate_pin_numbers_are_jumpers no)
-			(property "Reference" "D"
-				(at 0 2.54 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Value" "D_Schottky"
-				(at 0 -2.54 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Footprint" ""
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Datasheet" ""
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Description" "Schottky diode"
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "ki_keywords" "diode Schottky"
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "ki_fp_filters" "TO-???* *_Diode_* *SingleDiode* D_*"
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(symbol "D_Schottky_0_1"
-				(polyline
-					(pts
-						(xy -1.905 0.635) (xy -1.905 1.27) (xy -1.27 1.27) (xy -1.27 -1.27) (xy -0.635 -1.27) (xy -0.635 -0.635)
-					)
-					(stroke
-						(width 0.254)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 1.27 1.27) (xy 1.27 -1.27) (xy -1.27 0) (xy 1.27 1.27)
-					)
-					(stroke
-						(width 0.254)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 1.27 0) (xy -1.27 0)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-			)
-			(symbol "D_Schottky_1_1"
-				(pin passive line
-					(at -3.81 0 0)
-					(length 2.54)
-					(name "K"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 3.81 0 180)
-					(length 2.54)
-					(name "A"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-			)
-			(embedded_fonts no)
-		)
-		(symbol "Device:D_TVS"
-			(pin_numbers
-				(hide yes)
-			)
-			(pin_names
-				(offset 1.016)
-				(hide yes)
-			)
-			(exclude_from_sim no)
-			(in_bom yes)
-			(on_board yes)
-			(in_pos_files yes)
-			(duplicate_pin_numbers_are_jumpers no)
-			(property "Reference" "D"
-				(at 0 2.54 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Value" "D_TVS"
-				(at 0 -2.54 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Footprint" ""
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Datasheet" ""
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Description" "Bidirectional transient-voltage-suppression diode"
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "ki_keywords" "diode TVS thyrector"
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "ki_fp_filters" "TO-???* *_Diode_* *SingleDiode* D_*"
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(symbol "D_TVS_0_1"
-				(polyline
-					(pts
-						(xy -2.54 1.27) (xy -2.54 -1.27) (xy 2.54 1.27) (xy 2.54 -1.27) (xy -2.54 1.27)
-					)
-					(stroke
-						(width 0.254)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 0.508 1.27) (xy 0 1.27) (xy 0 -1.27) (xy -0.508 -1.27)
-					)
-					(stroke
-						(width 0.254)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 1.27 0) (xy -1.27 0)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-			)
-			(symbol "D_TVS_1_1"
-				(pin passive line
-					(at -3.81 0 0)
-					(length 2.54)
-					(name "A1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 3.81 0 180)
-					(length 2.54)
-					(name "A2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-			)
-			(embedded_fonts no)
-		)
 		(symbol "Device:L_Small"
 			(pin_numbers
 				(hide yes)
@@ -2087,6 +1755,340 @@
 					(alternate "T2CH2" bidirectional line)
 					(alternate "T2CH2_2" bidirectional line)
 					(alternate "UCTS" bidirectional line)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "ModbusFID4:SMBJ48A_C353356"
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "D"
+				(at 0 5.08 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "SMBJ48A_C353356"
+				(at 0 -5.08 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" "SMBJ48A:SMB_L4.6-W3.6-LS5.3-RD"
+				(at 0 -7.62 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" "https://lcsc.com/product-detail/Others_Shandong-Jingdao-Microelectronics-SMBJ48A_C353356.html"
+				(at 0 -10.16 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "VRMW = 48V, VC = 77.4V, IPP = 7.8A, 单向"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Manufacturer" "晶导微电子"
+				(at 0 -12.7 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "MPN" "SMBJ48A"
+				(at 0 -15.24 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "LCSC Part" "C353356"
+				(at 0 -17.78 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "TVS"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "SMBJ48A_C353356_0_1"
+				(polyline
+					(pts
+						(xy -2.29 2.29) (xy -1.27 1.27) (xy -1.27 -1.27) (xy -0.25 -2.29)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.27 -1.52) (xy -1.27 0) (xy 1.27 1.78) (xy 1.27 -1.52)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(pin unspecified line
+					(at -5.08 0 0)
+					(length 3.81)
+					(name "C"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin unspecified line
+					(at 5.08 0 180)
+					(length 3.81)
+					(name "A"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "ModbusFID4:SS210"
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "D"
+				(at 0 5.08 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "SS210"
+				(at 0 -5.08 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" "LCSC_Components:SMA_L4.3-W2.6-LS5.2-RD"
+				(at 0 -7.62 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" "https://lcsc.com/product-detail/Schottky-Barrier-Diodes-SBD_SS210_C14996.html"
+				(at 0 -10.16 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "SS210"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Manufacturer" "MDD(辰达半导体)"
+				(at 0 -12.7 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "MPN" "SS210"
+				(at 0 -15.24 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "LCSC Part" "C14996"
+				(at 0 -17.78 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "Schottky Barrier Diodes (SBD)"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "SS210_0_1"
+				(polyline
+					(pts
+						(xy -2.03 1.52) (xy -2.03 1.78) (xy -1.52 1.78) (xy -1.52 -2.03) (xy -1.02 -2.03) (xy -1.02 -1.78)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.27 1.52) (xy -1.27 0) (xy 1.27 -1.78) (xy 1.27 1.52)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(pin unspecified line
+					(at -5.08 0 0)
+					(length 3.81)
+					(name "K"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin unspecified line
+					(at 5.08 0 180)
+					(length 3.81)
+					(name "A"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
 				)
 			)
 			(embedded_fonts no)
@@ -3250,12 +3252,6 @@
 		(uuid "002a4299-9be4-4aab-9feb-fe2a5d73d8d9")
 	)
 	(junction
-		(at 134.62 118.11)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "0e973dbf-f7e4-4cc7-a6cd-de3c71c31015")
-	)
-	(junction
 		(at 149.86 71.12)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -3286,12 +3282,6 @@
 		(uuid "3e896874-7896-43d4-906a-a3c05715054b")
 	)
 	(junction
-		(at 238.76 27.94)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "3ec58f86-ac4f-4f27-be2c-aa5a0487fc37")
-	)
-	(junction
 		(at 142.24 49.53)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -3302,12 +3292,6 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "4d615a99-65ca-49f1-9bec-2438dee67f67")
-	)
-	(junction
-		(at 238.76 36.83)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "4f7af11c-cf5f-46e6-8296-e95c8dc65941")
 	)
 	(junction
 		(at 149.86 76.2)
@@ -3394,12 +3378,6 @@
 		(uuid "7fcad10d-8447-4239-a838-9513a2e692ca")
 	)
 	(junction
-		(at 135.89 49.53)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "850b1fd8-7d7d-4c28-8e19-6bfef50085aa")
-	)
-	(junction
 		(at 149.86 96.52)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -3412,10 +3390,10 @@
 		(uuid "94d2d423-b227-4a02-afca-ce470e996e0d")
 	)
 	(junction
-		(at 246.38 27.94)
+		(at 134.62 118.11)
 		(diameter 0)
 		(color 0 0 0 0)
-		(uuid "9e95e474-86bb-4f2f-8996-1eaa29a7f711")
+		(uuid "956bfb61-01a6-4154-aae7-61fd0e4c0633")
 	)
 	(junction
 		(at 73.66 25.4)
@@ -3448,12 +3426,6 @@
 		(uuid "b7a5ecc3-1865-4b27-84e7-609415a0324d")
 	)
 	(junction
-		(at 246.38 36.83)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "c7df88b5-891e-45c9-8374-5aa42a48daee")
-	)
-	(junction
 		(at 204.47 74.93)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -3478,6 +3450,12 @@
 		(uuid "e69d31b8-04fc-4ae7-9d39-fdd343d213ef")
 	)
 	(junction
+		(at 135.89 49.53)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "ec535623-f821-4f4b-9601-98c78c4a9314")
+	)
+	(junction
 		(at 208.28 67.31)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -3495,16 +3473,6 @@
 	)
 	(wire
 		(pts
-			(xy 238.76 25.4) (xy 241.3 25.4)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "08d091ce-7dd5-4d40-8b6c-48e4d644df4c")
-	)
-	(wire
-		(pts
 			(xy 149.86 96.52) (xy 161.29 96.52)
 		)
 		(stroke
@@ -3515,7 +3483,7 @@
 	)
 	(wire
 		(pts
-			(xy 135.89 49.53) (xy 142.24 49.53)
+			(xy 129.54 49.53) (xy 135.89 49.53)
 		)
 		(stroke
 			(width 0)
@@ -3545,16 +3513,6 @@
 	)
 	(wire
 		(pts
-			(xy 129.54 49.53) (xy 135.89 49.53)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "15804aa1-5807-42a0-9e82-7183aebcf1ce")
-	)
-	(wire
-		(pts
 			(xy 160.02 90.17) (xy 163.83 90.17)
 		)
 		(stroke
@@ -3575,13 +3533,13 @@
 	)
 	(wire
 		(pts
-			(xy 246.38 36.83) (xy 246.38 39.37)
+			(xy 134.62 109.22) (xy 134.62 118.11)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "1d077e8b-9809-44d2-8710-76f71de9bc42")
+		(uuid "1c5e9ccd-be96-45cc-a4bd-71c303d1afc6")
 	)
 	(wire
 		(pts
@@ -3635,16 +3593,6 @@
 	)
 	(wire
 		(pts
-			(xy 128.27 118.11) (xy 134.62 118.11)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "2b59d25b-f58b-471d-ac55-ace730594146")
-	)
-	(wire
-		(pts
 			(xy 162.56 72.39) (xy 162.56 71.12)
 		)
 		(stroke
@@ -3675,16 +3623,6 @@
 	)
 	(wire
 		(pts
-			(xy 238.76 27.94) (xy 238.76 36.83)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "3668ac0a-b4d6-49e6-9b78-5415391da443")
-	)
-	(wire
-		(pts
 			(xy 190.5 74.93) (xy 204.47 74.93)
 		)
 		(stroke
@@ -3705,7 +3643,7 @@
 	)
 	(wire
 		(pts
-			(xy 134.62 118.11) (xy 143.51 118.11)
+			(xy 128.27 118.11) (xy 134.62 118.11)
 		)
 		(stroke
 			(width 0)
@@ -3745,16 +3683,6 @@
 	)
 	(wire
 		(pts
-			(xy 246.38 25.4) (xy 243.84 25.4)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "3f6b2814-b307-4fc5-b29b-6eb4bca321e0")
-	)
-	(wire
-		(pts
 			(xy 162.56 80.01) (xy 162.56 82.55)
 		)
 		(stroke
@@ -3772,6 +3700,16 @@
 			(type default)
 		)
 		(uuid "444daabd-d889-4583-858b-abcd4f317906")
+	)
+	(wire
+		(pts
+			(xy 270.51 27.94) (xy 266.7 27.94)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "44f4af31-71fb-4968-8114-3d5fbbe567d3")
 	)
 	(wire
 		(pts
@@ -3802,16 +3740,6 @@
 			(type default)
 		)
 		(uuid "4b7282b5-1089-4a0c-962b-8a1012e8a680")
-	)
-	(wire
-		(pts
-			(xy 246.38 27.94) (xy 246.38 36.83)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "4c9cf1a9-d18e-4e60-9401-28fc6801ffc4")
 	)
 	(wire
 		(pts
@@ -3862,6 +3790,16 @@
 			(type default)
 		)
 		(uuid "509a2870-c3e7-417a-a081-f42b8fbe5fff")
+	)
+	(wire
+		(pts
+			(xy 135.89 49.53) (xy 135.89 58.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "599567d2-3e4f-4ded-8484-13d0f41257ad")
 	)
 	(wire
 		(pts
@@ -3932,16 +3870,6 @@
 			(type default)
 		)
 		(uuid "62e1a6d7-d332-4f7a-a658-94feea2dd2cb")
-	)
-	(wire
-		(pts
-			(xy 125.73 76.2) (xy 125.73 91.44)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "68ae8c6d-6790-44ca-88cf-74c3b19d2e2f")
 	)
 	(wire
 		(pts
@@ -4032,16 +3960,6 @@
 			(type default)
 		)
 		(uuid "7207596b-55f0-41b3-80f9-0be76480720f")
-	)
-	(wire
-		(pts
-			(xy 238.76 36.83) (xy 238.76 40.64)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "737bf1b4-f939-4bfd-a557-3ac14a5cf4ca")
 	)
 	(wire
 		(pts
@@ -4275,6 +4193,16 @@
 	)
 	(wire
 		(pts
+			(xy 134.62 118.11) (xy 143.51 118.11)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a85acbb1-2fe3-4d94-8273-ab500af3a8fa")
+	)
+	(wire
+		(pts
 			(xy 125.73 76.2) (xy 149.86 76.2)
 		)
 		(stroke
@@ -4302,16 +4230,6 @@
 			(type default)
 		)
 		(uuid "ad01888c-7b24-4847-842e-9677246c7b69")
-	)
-	(wire
-		(pts
-			(xy 246.38 27.94) (xy 246.38 25.4)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "ad254359-3143-4717-94e4-e362453b6fb6")
 	)
 	(wire
 		(pts
@@ -4385,13 +4303,13 @@
 	)
 	(wire
 		(pts
-			(xy 135.89 60.96) (xy 135.89 49.53)
+			(xy 135.89 68.58) (xy 135.89 71.12)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "c3ec4de6-7978-43f6-8fd1-9061d6e785d5")
+		(uuid "c3be069e-2709-47f2-aad7-451b495ab946")
 	)
 	(wire
 		(pts
@@ -4435,13 +4353,13 @@
 	)
 	(wire
 		(pts
-			(xy 135.89 68.58) (xy 135.89 71.12)
+			(xy 125.73 76.2) (xy 125.73 91.44)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "d1651f22-d8b3-4c99-951a-ba787ecec025")
+		(uuid "d209495f-0fe7-427c-833e-c57796cf98da")
 	)
 	(wire
 		(pts
@@ -4462,16 +4380,6 @@
 			(type default)
 		)
 		(uuid "d355aa11-ccc0-4b8c-9201-1621594978a1")
-	)
-	(wire
-		(pts
-			(xy 134.62 106.68) (xy 134.62 118.11)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "d3cbf337-5116-46a4-b488-be9e7fcf9edc")
 	)
 	(wire
 		(pts
@@ -4665,16 +4573,6 @@
 	)
 	(wire
 		(pts
-			(xy 238.76 27.94) (xy 238.76 25.4)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "f8d277d9-540b-446d-be61-f34cccd6b9d7")
-	)
-	(wire
-		(pts
 			(xy 190.5 80.01) (xy 212.09 80.01)
 		)
 		(stroke
@@ -4682,6 +4580,16 @@
 			(type default)
 		)
 		(uuid "fde4b718-3583-4372-83ef-4debfbb9dcc1")
+	)
+	(wire
+		(pts
+			(xy 135.89 49.53) (xy 142.24 49.53)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ff250ba2-deb5-48cb-bdab-d2281b86440e")
 	)
 	(label "SCK"
 		(at 190.5 82.55 0)
@@ -4764,7 +4672,7 @@
 		(uuid "e31e9998-4dfb-4d1b-a20c-8a3154b1e656")
 	)
 	(label "+48V"
-		(at 125.73 78.74 0)
+		(at 125.73 76.2 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -5740,85 +5648,6 @@
 		)
 	)
 	(symbol
-		(lib_id "Device:D_TVS")
-		(at 242.57 36.83 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "23b19825-943f-4bee-aff4-b56b2ec5c663")
-		(property "Reference" "D3"
-			(at 239.776 34.798 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "SMBJ48A"
-			(at 246.634 34.798 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 242.57 36.83 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 242.57 36.83 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Bidirectional transient-voltage-suppression diode"
-			(at 242.57 36.83 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "6aec17e5-2611-4ef0-a677-405f94730fa6")
-		)
-		(pin "2"
-			(uuid "431f87fa-428e-48a0-9795-639bc153725e")
-		)
-		(instances
-			(project "CH32V003FID4"
-				(path "/1321d62b-cf91-42e3-9f29-25334c23b520"
-					(reference "D3")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "power:GND")
 		(at 201.93 87.63 90)
 		(unit 1)
@@ -6299,8 +6128,8 @@
 		)
 	)
 	(symbol
-		(lib_id "Device:D_Schottky")
-		(at 135.89 64.77 270)
+		(lib_id "ModbusFID4:SS210")
+		(at 134.62 104.14 90)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -6308,9 +6137,9 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "42e2233a-81bb-4f32-966c-28a616f53a24")
-		(property "Reference" "D1"
-			(at 138.43 63.1824 90)
+		(uuid "4d0f7c45-ea53-4a3f-b1bb-00a62896468e")
+		(property "Reference" "D2"
+			(at 131.826 106.172 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -6320,8 +6149,8 @@
 				(justify left)
 			)
 		)
-		(property "Value" "100V"
-			(at 137.414 67.31 90)
+		(property "Value" "SS210"
+			(at 132.08 103.2501 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -6331,8 +6160,8 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
-			(at 135.89 64.77 0)
+		(property "Footprint" "LCSC_Components:SMA_L4.3-W2.6-LS5.2-RD"
+			(at 142.24 104.14 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6342,8 +6171,8 @@
 				)
 			)
 		)
-		(property "Datasheet" ""
-			(at 135.89 64.77 0)
+		(property "Datasheet" "https://lcsc.com/product-detail/Schottky-Barrier-Diodes-SBD_SS210_C14996.html"
+			(at 144.78 104.14 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6353,8 +6182,8 @@
 				)
 			)
 		)
-		(property "Description" "Schottky diode"
-			(at 135.89 64.77 0)
+		(property "Description" "SS210"
+			(at 134.62 104.14 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6364,16 +6193,49 @@
 				)
 			)
 		)
-		(pin "2"
-			(uuid "1acb2757-f0cd-4fb7-add8-79b56952a48d")
+		(property "Manufacturer" "MDD(辰达半导体)"
+			(at 147.32 104.14 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "SS210"
+			(at 149.86 104.14 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC Part" "C14996"
+			(at 152.4 104.14 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
 		)
 		(pin "1"
-			(uuid "e6cc1cd8-f625-46bd-9eb4-8b4f29785352")
+			(uuid "4a009850-9efc-40f9-bb28-4eb03070add6")
+		)
+		(pin "2"
+			(uuid "738f08aa-8828-40b5-b083-3ec7f385304a")
 		)
 		(instances
 			(project "CH32V003FID4"
 				(path "/1321d62b-cf91-42e3-9f29-25334c23b520"
-					(reference "D1")
+					(reference "D2")
 					(unit 1)
 				)
 			)
@@ -6868,6 +6730,85 @@
 		)
 	)
 	(symbol
+		(lib_id "power:+48V")
+		(at 259.08 27.94 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "7583b653-d67c-4f6d-8c90-8056c68da625")
+		(property "Reference" "#PWR017"
+			(at 262.89 27.94 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "+48V"
+			(at 255.27 27.9399 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" ""
+			(at 259.08 27.94 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 259.08 27.94 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"+48V\""
+			(at 259.08 27.94 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "96209fb0-37cc-467e-8fed-048e77b8ae8a")
+		)
+		(instances
+			(project "CH32V003FID4"
+				(path "/1321d62b-cf91-42e3-9f29-25334c23b520"
+					(reference "#PWR017")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:C_Small")
 		(at 149.86 73.66 0)
 		(unit 1)
@@ -7191,7 +7132,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 238.76 40.64 0)
+		(at 241.3 25.4 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -7202,7 +7143,7 @@
 		(fields_autoplaced yes)
 		(uuid "9439ce9b-4b80-42cf-920b-84fff3c168c8")
 		(property "Reference" "#PWR015"
-			(at 238.76 46.99 0)
+			(at 241.3 31.75 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7213,7 +7154,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 238.76 45.72 0)
+			(at 241.3 30.48 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7224,7 +7165,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 238.76 40.64 0)
+			(at 241.3 25.4 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7235,7 +7176,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 238.76 40.64 0)
+			(at 241.3 25.4 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7246,7 +7187,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 238.76 40.64 0)
+			(at 241.3 25.4 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7350,7 +7291,7 @@
 	)
 	(symbol
 		(lib_id "power:+48V")
-		(at 246.38 39.37 270)
+		(at 243.84 25.4 270)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -7361,7 +7302,7 @@
 		(fields_autoplaced yes)
 		(uuid "9775b439-1f20-49ca-942c-96bee21f1c70")
 		(property "Reference" "#PWR014"
-			(at 242.57 39.37 0)
+			(at 240.03 25.4 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7372,7 +7313,7 @@
 			)
 		)
 		(property "Value" "+48V"
-			(at 250.19 39.3699 90)
+			(at 247.65 25.3999 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -7383,7 +7324,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 246.38 39.37 0)
+			(at 243.84 25.4 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7394,7 +7335,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 246.38 39.37 0)
+			(at 243.84 25.4 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7405,7 +7346,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"+48V\""
-			(at 246.38 39.37 0)
+			(at 243.84 25.4 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8083,87 +8024,6 @@
 		)
 	)
 	(symbol
-		(lib_id "Device:D_Schottky")
-		(at 134.62 102.87 90)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "cd5fa101-9bf4-4d9b-a37f-40d96c786817")
-		(property "Reference" "D2"
-			(at 136.398 101.092 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Value" "100V"
-			(at 136.398 105.156 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Footprint" ""
-			(at 134.62 102.87 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 134.62 102.87 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Schottky diode"
-			(at 134.62 102.87 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "2"
-			(uuid "c6a0520f-be6b-4e96-86b1-2b75261533e9")
-		)
-		(pin "1"
-			(uuid "1e9c1dd2-b341-4d93-b0fa-0429d95dbbaf")
-		)
-		(instances
-			(project "CH32V003FID4"
-				(path "/1321d62b-cf91-42e3-9f29-25334c23b520"
-					(reference "D2")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Device:C")
 		(at 160.02 62.23 90)
 		(unit 1)
@@ -8402,7 +8262,7 @@
 	)
 	(symbol
 		(lib_id "Device:C_Polarized")
-		(at 242.57 27.94 270)
+		(at 262.89 27.94 90)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -8412,7 +8272,7 @@
 		(dnp no)
 		(uuid "da7f0887-9f71-40e7-aa9d-87dd85c20a12")
 		(property "Reference" "C13"
-			(at 239.014 29.464 90)
+			(at 265.938 26.162 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -8422,7 +8282,7 @@
 			)
 		)
 		(property "Value" "47 µ"
-			(at 239.014 27.432 90)
+			(at 266.446 29.464 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -8432,7 +8292,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 238.76 28.9052 0)
+			(at 266.7 26.9748 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8443,7 +8303,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 242.57 27.94 0)
+			(at 262.89 27.94 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8454,7 +8314,7 @@
 			)
 		)
 		(property "Description" "Polarized capacitor"
-			(at 242.57 27.94 0)
+			(at 262.89 27.94 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8714,6 +8574,312 @@
 			(project "CH32V003FID4"
 				(path "/1321d62b-cf91-42e3-9f29-25334c23b520"
 					(reference "#PWR012")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "ModbusFID4:SMBJ48A_C353356")
+		(at 259.08 39.37 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "f1748f31-8c76-494d-8892-3e9c5971ddbb")
+		(property "Reference" "D3"
+			(at 258.57 31.75 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "SMBJ48A_C353356"
+			(at 258.57 34.29 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "SMBJ48A:SMB_L4.6-W3.6-LS5.3-RD"
+			(at 259.08 46.99 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" "https://lcsc.com/product-detail/Others_Shandong-Jingdao-Microelectronics-SMBJ48A_C353356.html"
+			(at 259.08 49.53 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "VRMW = 48V, VC = 77.4V, IPP = 7.8A, 单向"
+			(at 259.08 39.37 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "晶导微电子"
+			(at 259.08 52.07 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "SMBJ48A"
+			(at 259.08 54.61 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC Part" "C353356"
+			(at 259.08 57.15 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "75fa9857-f51c-4cef-a6f0-952cc2f7b896")
+		)
+		(pin "2"
+			(uuid "934c5dd4-1964-4144-97fd-a1a4b81829e9")
+		)
+		(instances
+			(project "CH32V003FID4"
+				(path "/1321d62b-cf91-42e3-9f29-25334c23b520"
+					(reference "D3")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 270.51 27.94 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "fd202af3-b882-4987-b950-7f146fc08ec6")
+		(property "Reference" "#PWR018"
+			(at 276.86 27.94 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 275.59 27.94 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 270.51 27.94 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 270.51 27.94 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 270.51 27.94 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "28473e15-ddfa-4e1f-bc4b-e4c4d01a121d")
+		)
+		(instances
+			(project "CH32V003FID4"
+				(path "/1321d62b-cf91-42e3-9f29-25334c23b520"
+					(reference "#PWR018")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "ModbusFID4:SS210")
+		(at 135.89 63.5 270)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "ffd6aae3-8d91-40be-8b55-f7b5850acca7")
+		(property "Reference" "D1"
+			(at 138.684 61.468 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "SS210"
+			(at 138.43 64.3899 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "LCSC_Components:SMA_L4.3-W2.6-LS5.2-RD"
+			(at 128.27 63.5 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" "https://lcsc.com/product-detail/Schottky-Barrier-Diodes-SBD_SS210_C14996.html"
+			(at 125.73 63.5 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "SS210"
+			(at 135.89 63.5 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "MDD(辰达半导体)"
+			(at 123.19 63.5 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "SS210"
+			(at 120.65 63.5 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC Part" "C14996"
+			(at 118.11 63.5 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "df780467-f673-483b-970f-d3ce5ef359d2")
+		)
+		(pin "2"
+			(uuid "ba20804f-4292-42e1-8479-f2d22b1dd9c4")
+		)
+		(instances
+			(project "CH32V003FID4"
+				(path "/1321d62b-cf91-42e3-9f29-25334c23b520"
+					(reference "D1")
 					(unit 1)
 				)
 			)
