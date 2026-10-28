@@ -1,0 +1,28 @@
+// KiCad project ignore list for Syncthing
+
+// Auto-generated backups and recovery files
+*.bak
+*_bak
+*.kicad_prl
+*-bak*
+*.kicad_pcb-bak
+*.kicad_sch-bak
+
+// Lock files (active session locks)
+*.lck
+
+// Cache and local project settings
+fp-info-cache
+/kicad-nightly/
+
+// Temporary files
+*.tmp
+
+// Output directories (Gerbers, manufacturing files, 3D renders)
+// Remove lines below if you explicitly want to sync your output files
+/plots/
+/gerber/
+/gerbers/
+/output/
+/outputs/
+/fabrication/

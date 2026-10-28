@@ -8,7 +8,8 @@
 
 int main(void)
 {
-    SystemInit();
+    SystemInit();    
+    watchdog_init();
     debug_init();
     uart_init();
     discovery_init();
@@ -39,5 +40,6 @@ int main(void)
             rx_len = 0;
             rx_overflow = 0;
         }
+        watchdog_feed(); // Feed the watchdog from here so if tx fails, the watchdog will reset the device. Fixes device holding bus high and freezing everything
     }
 }
