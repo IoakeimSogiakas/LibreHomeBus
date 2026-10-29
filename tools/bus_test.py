@@ -1,7 +1,10 @@
+import json
 import time
 import serial
+import flavors
 
-PORT = "COM3"
+PORT       = "COM3"
+CACHE_FILE = "cache.json"
 
 EXCEPTIONS = {1: "illegal function",
               2: "illegal address or read-only register",
@@ -56,20 +59,36 @@ def write_reg(addr: int, reg: int, value: int) -> bool:
     return False
 
 
-def forget(uid: int):
+def _forget_by_uid(uid: int):
     s.write(frame("00 43 " + uid.to_bytes(8, "big").hex(" ")))
     s.flush()
     time.sleep(0.05)
 
 
+def cache_load() -> dict:
+    try:
+        with open(CACHE_FILE) as f:
+            data = json.load(f)
+        return {int(a): v for a, v in data.items()}
+    except (FileNotFoundError, json.JSONDecodeError, ValueError):
+        return {}
+
+
 def show_regs():
     addr = int(input("address: "))
-    regs = read_regs(addr)
-    if regs is None:
+    fid = reg_value(addr, 0)
+    raw = read_regs(addr)
+    if raw is None:
         print("no valid reply")
         return
-    for i, v in enumerate(regs):
-        print(f"reg {i} = {v}")
+    flavor = flavors.FLAVORS.get(fid)
+    reg_names = flavor["registers"] if flavor else {}
+    for i, v in enumerate(raw):
+        if i == 0:
+            label = f"FID ({flavor['name']})" if flavor else "FID"
+        else:
+            label = reg_names[i]["name"] if i in reg_names else f"reg {i}"
+        print(f"  reg {i}  {label:12s} = {v}")
 
 
 def write_cmd():
@@ -93,7 +112,7 @@ def on_off_check():
 def led_lease_test():
     addr = int(input("address: "))
     fid = reg_value(addr, 0)
-    if fid not in (1, 6):
+    if fid not in (flavors.FID_SWITCH, flavors.FID_PLUG):
         print(f"FID {fid} has no identify LED")
         return
 
@@ -133,14 +152,30 @@ def watch():
 
 
 def forget_node():
-    uid = int(input("UID (16 hex digits, printed by the node at boot): "), 16)
-    old = input("address it had, or Enter to skip: ").strip()
-    forget(uid)
-    if old:
-        if reg_value(int(old), 0) is None:
-            print("no longer answers, run discovery now")
-        else:
-            print("still answers at that address")
+    addr_str = input("address: ").strip()
+    if not addr_str:
+        print("address required")
+        return
+    addr = int(addr_str)
+
+    uid = None
+    cache = cache_load()
+    entry = cache.get(addr)
+    if entry and entry.get("uid"):
+        uid_hex = entry["uid"]
+        print(f"found UID {uid_hex} in cache")
+        uid = int(uid_hex, 16)
+    else:
+        raw = input("UID not in cache -- enter 16 hex digits (or Enter to cancel): ").strip()
+        if not raw:
+            return
+        uid = int(raw, 16)
+
+    _forget_by_uid(uid)
+    if reg_value(addr, 0) is None:
+        print("node no longer answers, run discovery to reassign")
+    else:
+        print("node still answers at that address -- forget may have failed")
 
 
 MENU = """
@@ -149,7 +184,7 @@ MENU = """
 3  on/off check of a register
 4  identify LED test (blink, then 30 s timeout)
 5  watch a register
-6  forget a node by UID
+6  forget a node
 q  quit"""
 
 ACTIONS = {"1": show_regs, "2": write_cmd, "3": on_off_check,

@@ -1,10 +1,15 @@
+import json
+import os
 import time
 import serial
+import flavors
+import headers
 
 PORT           = "COM3"
-TARGET         = "host" #"wt32"
+TARGET         = "host"   # "host" | "wt32" | "s3zero"
 HUB_NAME       = "hub-1"
 YAML_FILE      = "hub.yaml"
+CACHE_FILE     = "cache.json"
 HOST_UART_PORT = "/dev/ttyUSB0" #real hardware now!
 SCAN_TIMEOUT   = 0.03
 COLD_K, WARM_K = 6500, 2700
@@ -103,73 +108,48 @@ def next_free(devices: dict):
     return next((a for a in range(1, 248) if a not in devices), None)
 
 
-# The wt32 pins and Ethernet settings are placeholders. Check them against the
-# WT32-ETH01 pinout.
-HEADERS = {
-"wt32": """esphome:
-  name: {name}
+# ---- cache -----------------------------------------------------------------
+# cache.json keeps what the script has learned across runs:
+#   { "<address>": { "uid": "<16 hex digits>", "fid": <int> } }
+# An assigned node ignores broadcast traffic, so its UID can only be captured
+# the run it is commissioned. A plain bus scan can refresh the FID at that
+# address but can never recover a UID that was never recorded.
 
-esp32:
-  board: esp32dev
-  framework:
-    type: esp-idf
+def cache_load() -> dict:
+    try:
+        with open(CACHE_FILE) as f:
+            data = json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError, ValueError):
+        return {}
+    # JSON keys are always strings; convert them back to int addresses
+    return {int(a): v for a, v in data.items()}
 
-logger:
 
-api:
+def cache_save(cache: dict):
+    data = {str(a): cache[a] for a in sorted(cache)}
+    tmp = CACHE_FILE + ".tmp"
+    with open(tmp, "w", newline="\n") as f:
+        json.dump(data, f, indent=2)
+        f.write("\n")
+    os.replace(tmp, CACHE_FILE)
 
-ota:
-  - platform: esphome
 
-ethernet:
-  type: LAN8720
-  mdc_pin: GPIO23
-  mdio_pin: GPIO18
-  clk_mode: GPIO0_IN
-  phy_addr: 1
-  power_pin: GPIO16
+def cache_note_scan(cache: dict, devices: dict):
+    """Fold a live bus scan into the cache. The live FID always wins; a UID
+    already on record is kept, missing ones stay unknown (None)."""
+    for addr, fid in devices.items():
+        entry = cache.setdefault(addr, {"uid": None, "fid": None})
+        if fid is not None:
+            entry["fid"] = fid
 
-uart:
-  id: uart_bus
-  tx_pin: GPIO17
-  rx_pin: GPIO32
-  flow_control_pin: GPIO33
-  baud_rate: 115200
-  rx_buffer_size: 256
-  rx_timeout: 15
 
-modbus:
-  id: modbus_bus
-  uart_id: uart_bus
-  send_wait_time: {send_wait}
-  turnaround_time: {turnaround}
-""",
-"host": """esphome:
-  name: {name}
+def cache_note_assign(cache: dict, addr: int, uid: int, fid: int):
+    """Record a freshly assigned node. This is the only moment the UID is
+    available for an individual node."""
+    cache[addr] = {"uid": f"{uid:016X}", "fid": fid}
 
-host:
-  mac_address: "02:A1:B2:C3:D4:E5"
 
-logger:
 
-api:
-
-uart:
-  id: uart_bus
-  port: {port}
-  baud_rate: 115200
-  rx_buffer_size: 256
-
-modbus:
-  id: modbus_bus
-  uart_id: uart_bus
-  send_wait_time: {send_wait}
-  turnaround_time: {turnaround}
-""",
-}
-
-# FID 0 and 4 are left out on purpose.
-LABELS = {1: "Switch", 2: "Light", 3: "Dimmer", 5: "Tunable light", 6: "Plug"}
 
 
 def output_block(n, key, reg, multiply=None):
@@ -198,37 +178,41 @@ def light_block(n, name, platform, lines):
 def write_yaml(devices: dict):
     sec = {"modbus_controller": [], "binary_sensor": [], "switch": [], "output": [], "light": []}
 
+    if TARGET == "s3zero":
+        sec["light"].append(headers.BOARD_LED_S3ZERO)
+
     for n in sorted(devices):
         fid = devices[n]
-        if fid not in LABELS:
-            print(f"Address {n}: FID {fid} has no YAML mapping, skipping")
+        flavor = flavors.FLAVORS.get(fid)
+        if flavor is None:
+            print(f"Address {n}: FID {fid} has no mapping, skipping")
             continue
 
-        name = f"{LABELS[fid]} {n}"
+        name = f"{flavor['label']} {n}"
 
-        if fid == 1:
+        if flavor["poll"] == "continuous":
             poll = ("    continuous: true\n"
                     "    update_interval: 1s\n"
                     "    offline_skip_updates: 9\n")
-        elif fid in (2, 6):
+        elif flavor["poll"] == "periodic":
             poll = ("    update_interval: 1s\n"
                     "    offline_skip_updates: 9\n")
         else:
-            poll = ""    # output-only nodes have nothing to read
+            poll = ""
 
         sec["modbus_controller"].append(
             f"  - id: node_{n}\n"
             f"    address: {n}\n"
             f"    modbus_id: modbus_bus\n" + poll)
 
-        if fid == 1:
+        if fid == flavors.FID_SWITCH:
             sec["binary_sensor"].append(
                 f"  - platform: modbus_controller\n"
                 f"    modbus_controller_id: node_{n}\n"
                 f"    name: \"{name}\"\n"
                 f"    register_type: holding\n"
                 f"    address: 1\n")
-        elif fid in (2, 6):
+        elif fid in (flavors.FID_LIGHT_ONOFF, flavors.FID_PLUG):
             sec["switch"].append(
                 f"  - platform: modbus_controller\n"
                 f"    modbus_controller_id: node_{n}\n"
@@ -236,12 +220,12 @@ def write_yaml(devices: dict):
                 f"    register_type: holding\n"
                 f"    address: 1\n"
                 f"    bitmask: 1\n")
-        elif fid == 3:
+        elif fid == flavors.FID_LIGHT_DIM:
             sec["output"] += [output_block(n, "power", 1),
                               output_block(n, "brightness", 2, 1000)]
             sec["light"].append(light_block(n, name, "monochromatic",
                                             [f"output: node_{n}_brightness"]))
-        elif fid == 5:
+        elif fid == flavors.FID_TW_PWM:
             sec["output"] += [output_block(n, "power", 1),
                               output_block(n, "cold", 2, 1000),
                               output_block(n, "warm", 3, 1000)]
@@ -252,8 +236,8 @@ def write_yaml(devices: dict):
                 f"warm_white_color_temperature: {WARM_K} K",
                 "constant_brightness: true"]))
 
-    text = HEADERS[TARGET].format(name=HUB_NAME, port=HOST_UART_PORT,
-                                  send_wait=SEND_WAIT, turnaround=TURNAROUND)
+    text = headers.ALL[TARGET].format(name=HUB_NAME, port=HOST_UART_PORT,
+                                      send_wait=SEND_WAIT, turnaround=TURNAROUND)
     for key, blocks in sec.items():
         if blocks:
             text += f"\n{key}:\n" + "".join(blocks)
@@ -267,9 +251,14 @@ def main():
     global s
     s = serial.Serial(PORT, 115200, timeout=0.05)
 
+    cache = cache_load()
+    print(f"Loaded cache with {len(cache)} known node(s)")
+
     print("Scanning bus for assigned nodes...")
     devices = scan_assigned()
     print(f"Found {len(devices)} assigned node(s)")
+    cache_note_scan(cache, devices)
+    cache_save(cache)
 
     while True:
         uid = find_lowest_unassigned()
@@ -289,6 +278,8 @@ def main():
             break
 
         devices[addr] = fid
+        cache_note_assign(cache, addr, uid, fid)
+        cache_save(cache)
         print(f"Assigned node {uid:016X} -> Address {addr}, FID {fid}")
 
     write_yaml(devices)
