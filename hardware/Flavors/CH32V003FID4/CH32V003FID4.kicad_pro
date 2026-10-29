@@ -523,8 +523,8 @@
     "meta": {
       "version": 5
     },
-    "net_colors": {},
-    "netclass_assignments": {},
+    "net_colors": null,
+    "netclass_assignments": null,
     "netclass_patterns": []
   },
   "pcbnew": {
@@ -656,7 +656,7 @@
         "uuid": "1321d62b-cf91-42e3-9f29-25334c23b520"
       }
     ],
-    "used_designators": "D2-4",
+    "used_designators": "D2-4,SW1",
     "variants": []
   },
   "sheets": [

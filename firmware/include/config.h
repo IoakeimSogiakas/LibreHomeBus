@@ -69,7 +69,7 @@ static inline void watchdog_feed(void)
 #define FID_SWITCH       1
 #define FID_LIGHT_ONOFF  2
 #define FID_LIGHT_DIM    3
-#define FID_TW_SMART     4   /* tunable white, SPI driver (not done yet) */
+#define FID_TW_SMART     4   /* tunable white, TPS92520 over SPI */
 #define FID_TW_PWM       5
 #define FID_PLUG         6
 

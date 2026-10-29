@@ -253,8 +253,8 @@ void flavor_poll(void)
     led_poll();
 }
 
-#else
-/* FID_NONE or not implemented yet */
+#elif FLAVOR != FID_TW_SMART
+/* FID_NONE or not implemented yet. FID_TW_SMART lives in tw_smart.c */
 void flavor_init(void) {}
 void flavor_poll(void) {}
 #endif

@@ -36,7 +36,11 @@ FLAVORS = {
         "name":  "Tunable white (SPI)",
         "label": "Tunable light",
         "poll":  None,
-        "registers": {},
+        "registers": {
+            1: {"name": "on_off", "rw": True, "max": 1},
+            2: {"name": "cold",   "rw": True, "max": 1000},
+            3: {"name": "warm",   "rw": True, "max": 1000},
+        },
     },
     FID_TW_PWM: {
         "name":  "Tunable white (PWM)",

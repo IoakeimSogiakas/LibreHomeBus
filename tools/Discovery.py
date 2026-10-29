@@ -225,7 +225,7 @@ def write_yaml(devices: dict):
                               output_block(n, "brightness", 2, 1000)]
             sec["light"].append(light_block(n, name, "monochromatic",
                                             [f"output: node_{n}_brightness"]))
-        elif fid == flavors.FID_TW_PWM:
+        elif fid in (flavors.FID_TW_PWM, flavors.FID_TW_SMART):
             sec["output"] += [output_block(n, "power", 1),
                               output_block(n, "cold", 2, 1000),
                               output_block(n, "warm", 3, 1000)]
