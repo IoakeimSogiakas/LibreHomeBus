@@ -612,6 +612,297 @@
 		)
 		(embedded_fonts no)
 	)
+	(symbol "LM5168PDDAR"
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(duplicate_pin_numbers_are_jumpers no)
+		(property "Reference" "U"
+			(at 0 12.7 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "LM5168PDDAR"
+			(at 0 -10.16 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Modbus FID4 FootPrints:LM5168PDDAR"
+			(at 0 -12.7 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" "https://www.lcsc.com/datasheet/C5751958.pdf"
+			(at 0.254 -25.146 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Step-Down DC-DC Converter, 6V-120V In, 0.3A Out, Adjustable, COT Buck/Fly-Buck, SO-PowerPAD-8"
+			(at 8.636 -15.494 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "TI(德州仪器)"
+			(at 0 -17.78 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "LM5168PDDAR"
+			(at 0 -20.32 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC Part" "C5751958"
+			(at 0 -22.86 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "ki_keywords" "DC-DC Converters"
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(symbol "LM5168PDDAR_0_1"
+			(rectangle
+				(start -11.43 5.08)
+				(end 11.43 -7.62)
+				(stroke
+					(width 0)
+					(type default)
+				)
+				(fill
+					(type background)
+				)
+			)
+			(circle
+				(center -10.16 3.81)
+				(radius 0.38)
+				(stroke
+					(width 0)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(pin power_in line
+				(at -13.97 2.54 0)
+				(length 2.54)
+				(name "GND"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "1"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin power_in line
+				(at -13.97 0 0)
+				(length 2.54)
+				(name "VIN"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "2"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin input line
+				(at -13.97 -2.54 0)
+				(length 2.54)
+				(name "EN/UVLO"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "3"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin input line
+				(at -13.97 -5.08 0)
+				(length 2.54)
+				(name "RT"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "4"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin input line
+				(at 13.97 -5.08 180)
+				(length 2.54)
+				(name "FB"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "5"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin output line
+				(at 13.97 -2.54 180)
+				(length 2.54)
+				(name "PGOOD"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "6"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin input line
+				(at 13.97 0 180)
+				(length 2.54)
+				(name "BST"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "7"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin output line
+				(at 13.97 2.54 180)
+				(length 2.54)
+				(name "SW"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "8"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin passive line
+				(at 0 7.62 270)
+				(length 2.54)
+				(name "EP"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "9"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+		)
+		(embedded_fonts no)
+	)
 	(symbol "SMBJ48A_C353356"
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -629,7 +920,7 @@
 			)
 		)
 		(property "Value" "SMBJ48A_C353356"
-			(at 0 -5.08 0)
+			(at -11.43 10.414 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -638,8 +929,8 @@
 				)
 			)
 		)
-		(property "Footprint" "SMBJ48A:SMB_L4.6-W3.6-LS5.3-RD"
-			(at 0 -7.62 0)
+		(property "Footprint" "Modbus FID4 FootPrints:SMB_L4.6-W3.6-LS5.3-RD"
+			(at 39.37 -16.764 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(hide yes)
@@ -650,7 +941,7 @@
 			)
 		)
 		(property "Datasheet" "https://lcsc.com/product-detail/Others_Shandong-Jingdao-Microelectronics-SMBJ48A_C353356.html"
-			(at 0 -10.16 0)
+			(at 39.37 -19.304 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(hide yes)
@@ -661,7 +952,7 @@
 			)
 		)
 		(property "Description" "VRMW = 48V, VC = 77.4V, IPP = 7.8A, 单向"
-			(at 0 0 0)
+			(at 35.56 -14.224 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(hide yes)
@@ -672,7 +963,7 @@
 			)
 		)
 		(property "Manufacturer" "晶导微电子"
-			(at 0 -12.7 0)
+			(at 39.37 -21.844 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(hide yes)
@@ -683,7 +974,7 @@
 			)
 		)
 		(property "MPN" "SMBJ48A"
-			(at 0 -15.24 0)
+			(at 39.37 -24.384 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(hide yes)
@@ -694,7 +985,7 @@
 			)
 		)
 		(property "LCSC Part" "C353356"
-			(at 0 -17.78 0)
+			(at 39.37 -26.924 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(hide yes)
@@ -718,7 +1009,7 @@
 		(symbol "SMBJ48A_C353356_0_1"
 			(polyline
 				(pts
-					(xy -2.29 2.29) (xy -1.27 1.27) (xy -1.27 -1.27) (xy -0.25 -2.29)
+					(xy -3.81 3.81) (xy -1.27 2.54) (xy -1.27 -2.54) (xy 1.27 -5.08)
 				)
 				(stroke
 					(width 0)
@@ -730,7 +1021,7 @@
 			)
 			(polyline
 				(pts
-					(xy 1.27 -1.52) (xy -1.27 0) (xy 1.27 1.78) (xy 1.27 -1.52)
+					(xy 2.54 -2.54) (xy -1.27 0) (xy 2.54 2.54) (xy 2.54 -2.54)
 				)
 				(stroke
 					(width 0)
@@ -740,10 +1031,177 @@
 					(type background)
 				)
 			)
-			(pin unspecified line
+		)
+		(symbol "SMBJ48A_C353356_1_1"
+			(pin passive line
 				(at -5.08 0 0)
 				(length 3.81)
 				(name "C"
+					(effects
+						(font
+							(size 0.635 0.635)
+						)
+					)
+				)
+				(number "1"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin passive line
+				(at 6.35 0 180)
+				(length 3.81)
+				(name "A"
+					(effects
+						(font
+							(size 0.635 0.635)
+						)
+					)
+				)
+				(number "2"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+		)
+		(embedded_fonts no)
+	)
+	(symbol "SN75HVD3082EDR"
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(duplicate_pin_numbers_are_jumpers no)
+		(property "Reference" "U"
+			(at 0 8.89 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "SN75HVD3082EDR"
+			(at 0 -8.89 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Modbus FID4 FootPrints:SN75HVD3082EDR"
+			(at 0 -11.43 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" "https://lcsc.com/product-detail/RS-485-RS-422_TI_SN75HVD3082EDR_SN75HVD3082EDR_C140254.html"
+			(at 0 -13.97 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Low-Power Half-Duplex RS-485/RS-422 Transceiver, 200kbps, 5V, SOIC-8"
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "TI(德州仪器)"
+			(at 0 -16.51 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "SN75HVD3082EDR"
+			(at 0 -19.05 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC Part" "C140254"
+			(at 0 -21.59 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "ki_keywords" "RS-485/RS-422 ICs"
+			(at 0 0 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(hide yes)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(symbol "SN75HVD3082EDR_0_1"
+			(rectangle
+				(start -7.62 6.35)
+				(end 7.62 -6.35)
+				(stroke
+					(width 0)
+					(type default)
+				)
+				(fill
+					(type background)
+				)
+			)
+			(circle
+				(center -6.35 5.08)
+				(radius 0.38)
+				(stroke
+					(width 0)
+					(type default)
+				)
+				(fill
+					(type none)
+				)
+			)
+			(pin output line
+				(at -10.16 3.81 0)
+				(length 2.54)
+				(name "R"
 					(effects
 						(font
 							(size 1.27 1.27)
@@ -758,10 +1216,10 @@
 					)
 				)
 			)
-			(pin unspecified line
-				(at 5.08 0 180)
-				(length 3.81)
-				(name "A"
+			(pin input line
+				(at -10.16 1.27 0)
+				(length 2.54)
+				(name "~{RE}"
 					(effects
 						(font
 							(size 1.27 1.27)
@@ -769,6 +1227,114 @@
 					)
 				)
 				(number "2"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin input line
+				(at -10.16 -1.27 0)
+				(length 2.54)
+				(name "DE"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "3"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin input line
+				(at -10.16 -3.81 0)
+				(length 2.54)
+				(name "D"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "4"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin power_in line
+				(at 10.16 -3.81 180)
+				(length 2.54)
+				(name "GND"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "5"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin bidirectional line
+				(at 10.16 -1.27 180)
+				(length 2.54)
+				(name "A"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "6"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin bidirectional line
+				(at 10.16 1.27 180)
+				(length 2.54)
+				(name "B"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "7"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+			)
+			(pin power_in line
+				(at 10.16 3.81 180)
+				(length 2.54)
+				(name "VCC"
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+					)
+				)
+				(number "8"
 					(effects
 						(font
 							(size 1.27 1.27)
@@ -796,7 +1362,7 @@
 			)
 		)
 		(property "Value" "SS210"
-			(at 0 -5.08 0)
+			(at 3.556 4.064 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -805,8 +1371,8 @@
 				)
 			)
 		)
-		(property "Footprint" "LCSC_Components:SMA_L4.3-W2.6-LS5.2-RD"
-			(at 0 -7.62 0)
+		(property "Footprint" "Diode_SMD:D_SMA"
+			(at 39.878 -9.652 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(hide yes)
@@ -817,7 +1383,7 @@
 			)
 		)
 		(property "Datasheet" "https://lcsc.com/product-detail/Schottky-Barrier-Diodes-SBD_SS210_C14996.html"
-			(at 0 -10.16 0)
+			(at 39.878 -12.192 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(hide yes)
@@ -827,8 +1393,8 @@
 				)
 			)
 		)
-		(property "Description" "SS210"
-			(at 0 0 0)
+		(property "Description" "Schottky Diode"
+			(at 38.862 -7.62 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(hide yes)
@@ -839,7 +1405,7 @@
 			)
 		)
 		(property "Manufacturer" "MDD(辰达半导体)"
-			(at 0 -12.7 0)
+			(at 39.878 -14.732 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(hide yes)
@@ -850,7 +1416,7 @@
 			)
 		)
 		(property "MPN" "SS210"
-			(at 0 -15.24 0)
+			(at 39.878 -17.272 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(hide yes)
@@ -861,7 +1427,7 @@
 			)
 		)
 		(property "LCSC Part" "C14996"
-			(at 0 -17.78 0)
+			(at 39.878 -19.812 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(hide yes)
@@ -897,7 +1463,7 @@
 			)
 			(polyline
 				(pts
-					(xy 1.27 1.52) (xy -1.27 0) (xy 1.27 -1.78) (xy 1.27 1.52)
+					(xy 2.54 2.54) (xy -1.27 0) (xy 2.54 -2.54) (xy 2.54 2.54)
 				)
 				(stroke
 					(width 0)
@@ -907,13 +1473,15 @@
 					(type background)
 				)
 			)
-			(pin unspecified line
+		)
+		(symbol "SS210_1_1"
+			(pin passive line
 				(at -5.08 0 0)
 				(length 3.81)
 				(name "K"
 					(effects
 						(font
-							(size 1.27 1.27)
+							(size 0.635 0.635)
 						)
 					)
 				)
@@ -925,13 +1493,13 @@
 					)
 				)
 			)
-			(pin unspecified line
-				(at 5.08 0 180)
+			(pin passive line
+				(at 6.35 0 180)
 				(length 3.81)
 				(name "A"
 					(effects
 						(font
-							(size 1.27 1.27)
+							(size 0.635 0.635)
 						)
 					)
 				)
@@ -972,7 +1540,7 @@
 				)
 			)
 		)
-		(property "Footprint" "ProLib_1pcs_2026-10-23:HTSSOP-32_L11.0-W6.1-P0.65-LS8.1-BL-EP-2"
+		(property "Footprint" "Modbus FID4 FootPrints:TPS92520QDAPRQ1"
 			(at 71.374 -32.004 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -1176,7 +1744,7 @@
 					)
 				)
 			)
-			(pin power_out line
+			(pin power_in line
 				(at -2.54 -20.32 0)
 				(length 2.54)
 				(name "V5A"
@@ -1194,7 +1762,7 @@
 					)
 				)
 			)
-			(pin power_out line
+			(pin power_in line
 				(at -2.54 -22.86 0)
 				(length 2.54)
 				(name "V5D"
@@ -1392,7 +1960,7 @@
 					)
 				)
 			)
-			(pin output line
+			(pin passive line
 				(at 24.13 -33.02 180)
 				(length 2.54)
 				(name "SW1"
@@ -1410,7 +1978,7 @@
 					)
 				)
 			)
-			(pin output line
+			(pin passive line
 				(at 24.13 -30.48 180)
 				(length 2.54)
 				(name "SW1"
@@ -1536,7 +2104,7 @@
 					)
 				)
 			)
-			(pin output line
+			(pin passive line
 				(at 24.13 -12.7 180)
 				(length 2.54)
 				(name "SW2"
@@ -1554,7 +2122,7 @@
 					)
 				)
 			)
-			(pin output line
+			(pin passive line
 				(at 24.13 -10.16 180)
 				(length 2.54)
 				(name "SW2"

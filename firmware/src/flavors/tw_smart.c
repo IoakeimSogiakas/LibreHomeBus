@@ -20,7 +20,7 @@
 #define CH2_EN_PIN    PC3      /* UDIM2, warm */
 #define FLT_PIN       PD3      /* !FLT, open drain, active low */
 
-#define RCS_MOHM      330      /* R2/R3, milliohm. Must match the board */
+#define RCS_MOHM      470      /* R2/R3, milliohm. Must match the board */
 #define LED_MA        340      /* LED current per channel */
 #define TON           7        /* ~437 kHz switching */
 #define PWMDIV        0        /* 1507 Hz PWM */
