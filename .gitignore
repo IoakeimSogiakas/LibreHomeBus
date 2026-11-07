@@ -50,5 +50,8 @@ Thumbs.db
 # Other Files & Folders
 # ==============================================================================
 venv/
+# VS Code Local History
+.history/
 
-/datasheet
+# Syncthing Conflict Files
+*.sync-conflict-*

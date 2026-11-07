@@ -7,7 +7,7 @@
 	(property "Reference" "REF**"
 		(at 0 -4 0)
 		(layer "F.SilkS")
-		(uuid "f025394a-0463-46ca-a6d8-d5a702595b95")
+		(uuid "7d05195e-b82c-4087-978b-0c163b45a593")
 		(effects
 			(font
 				(size 1 1)
@@ -18,7 +18,7 @@
 	(property "Value" "SMB_L4.6-W3.6-LS5.3-RD"
 		(at 0 4 0)
 		(layer "F.Fab")
-		(uuid "c8a9dc77-e1a6-42f6-8783-96decce2909b")
+		(uuid "65fa3468-1c50-454d-8a28-24c05fa6df6d")
 		(effects
 			(font
 				(size 1 1)
@@ -30,7 +30,7 @@
 		(at 0 0 0)
 		(layer "F.Fab")
 		(hide yes)
-		(uuid "628718f5-a78c-4327-b686-6b81d539e776")
+		(uuid "0f71eb1b-7c3c-481f-889f-26aa294c4083")
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -41,7 +41,7 @@
 		(at 0 0 0)
 		(layer "F.Fab")
 		(hide yes)
-		(uuid "0ddf36d4-e50e-4d96-9556-eed34e3e16a5")
+		(uuid "17345d4c-ac64-472f-9146-6daf7d6fa455")
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -52,7 +52,7 @@
 		(at 0 0 0)
 		(layer "F.Fab")
 		(hide yes)
-		(uuid "8dbe741a-8207-4530-949b-758c7e164943")
+		(uuid "87a3f149-c871-4093-ab09-6c10deb35f77")
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -69,7 +69,7 @@
 			(type solid)
 		)
 		(layer "F.SilkS")
-		(uuid "5ca05870-3835-48d6-bf46-93effe7a6385")
+		(uuid "65ac41dd-f582-4d44-866c-0462e2971aca")
 	)
 	(fp_line
 		(start -2.74 1.89)
@@ -79,7 +79,7 @@
 			(type solid)
 		)
 		(layer "F.SilkS")
-		(uuid "e4ebb72d-e148-4998-b866-b9b72a8652a4")
+		(uuid "58081880-de19-497f-8aa8-969dfceb6578")
 	)
 	(fp_line
 		(start -1.02 -1.89)
@@ -89,7 +89,7 @@
 			(type solid)
 		)
 		(layer "F.SilkS")
-		(uuid "ce2fbf61-f748-4161-9dde-c8d5d6183739")
+		(uuid "43e9f2e9-acbb-4392-9838-44da62a26689")
 	)
 	(fp_line
 		(start 2.74 -1.89)
@@ -99,7 +99,7 @@
 			(type solid)
 		)
 		(layer "F.SilkS")
-		(uuid "07572179-0912-4960-bc70-513e6f23e89c")
+		(uuid "f4f18489-9722-4287-adae-552934caa6e2")
 	)
 	(fp_line
 		(start 2.74 1.89)
@@ -109,7 +109,7 @@
 			(type solid)
 		)
 		(layer "F.SilkS")
-		(uuid "2d28be2f-6b63-4b8f-85ad-9b3d6c1c2fdb")
+		(uuid "6efd87a8-289f-4eb7-8e1a-9f1d09eb83b6")
 	)
 	(fp_circle
 		(center -2.65 1.8)
@@ -120,7 +120,7 @@
 		)
 		(fill no)
 		(layer "F.SilkS")
-		(uuid "d70ddfea-0cd9-4256-8f43-4eafb14eaeae")
+		(uuid "cea2c075-7107-45d2-b60d-968cea207cac")
 	)
 	(fp_poly
 		(pts
@@ -133,7 +133,7 @@
 		)
 		(fill yes)
 		(layer "F.SilkS")
-		(uuid "77630b81-0ced-4cbc-953f-56b583d1bb66")
+		(uuid "50422a26-b169-42a1-9f60-374be0645629")
 	)
 	(fp_poly
 		(pts
@@ -145,7 +145,7 @@
 		)
 		(fill yes)
 		(layer "F.SilkS")
-		(uuid "03bb277c-4dfd-43d9-9473-4b8550c9b144")
+		(uuid "58ad0856-3426-4016-bc62-f9e9e54bcb47")
 	)
 	(fp_line
 		(start -2.3 -1.8)
@@ -155,7 +155,7 @@
 			(type solid)
 		)
 		(layer "F.CrtYd")
-		(uuid "26e3a646-c105-439a-8ce4-a0d6e992643f")
+		(uuid "50ca7797-fdcd-44af-9456-50196819be20")
 	)
 	(fp_line
 		(start -2.3 1.8)
@@ -165,7 +165,7 @@
 			(type solid)
 		)
 		(layer "F.CrtYd")
-		(uuid "cbddc6c4-bdba-4ad4-ab89-7fb9f01b1acc")
+		(uuid "6a2dc15b-2453-4a22-ac44-435723224517")
 	)
 	(fp_line
 		(start 2.3 -1.8)
@@ -175,7 +175,7 @@
 			(type solid)
 		)
 		(layer "F.CrtYd")
-		(uuid "5eee043f-46a3-4337-8997-293471ac9b2f")
+		(uuid "b2a86879-985a-4910-b13b-0c4fdf1de4f3")
 	)
 	(fp_line
 		(start 2.3 1.8)
@@ -185,12 +185,12 @@
 			(type solid)
 		)
 		(layer "F.CrtYd")
-		(uuid "6cacc69c-cdf1-4f5e-9509-1375efaa994a")
+		(uuid "8ca49c36-3f24-40e2-a15d-1abf6038ae96")
 	)
 	(fp_text user "${REFERENCE}"
 		(at 0 0 0)
 		(layer "F.Fab")
-		(uuid "664a5dd2-6118-4b04-9d50-360c89a1faae")
+		(uuid "e9d4f79b-2668-4000-b653-4deb201f17ed")
 		(effects
 			(font
 				(size 1 1)
@@ -202,16 +202,16 @@
 		(at -2.36 0)
 		(size 2.047 2.192)
 		(layers "F.Cu" "F.Mask" "F.Paste")
-		(uuid "0c0ec6f5-43d2-45e9-ab5c-cc144a006d63")
+		(uuid "2b51ee50-a219-4ac7-b595-08182ee7dd58")
 	)
 	(pad "2" smd rect
 		(at 2.36 0)
 		(size 2.047 2.192)
 		(layers "F.Cu" "F.Mask" "F.Paste")
-		(uuid "58d7c4e8-a5d7-471c-be3e-da4faef57d49")
+		(uuid "ec1b386e-2b13-4097-9a97-3d5adc5f01c9")
 	)
 	(embedded_fonts no)
-	(model "${KIPRJMOD}/hardware/LCSC/SMBJ48A/SMBJ48A.3dshapes/SMB_L4.6-W3.6-LS5.3-RD.wrl"
+	(model "${KIPRJMOD}/../../LCSC/SMBJ48A/SMBJ48A.3dshapes/SMB_L4.6-W3.6-LS5.3-RD.wrl"
 		(offset
 			(xyz 0 0 0)
 		)

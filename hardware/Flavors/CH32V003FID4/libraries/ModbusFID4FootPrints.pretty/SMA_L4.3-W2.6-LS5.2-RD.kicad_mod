@@ -7,7 +7,7 @@
 	(property "Reference" "REF**"
 		(at 0 -4 0)
 		(layer "F.SilkS")
-		(uuid "8b86ac0e-b6d5-48a9-9f2a-f659d8e20afd")
+		(uuid "1848971e-1f4f-4d66-a910-50bf081286b0")
 		(effects
 			(font
 				(size 1 1)
@@ -18,7 +18,7 @@
 	(property "Value" "SMA_L4.3-W2.6-LS5.2-RD"
 		(at 0 4 0)
 		(layer "F.Fab")
-		(uuid "cd4da09e-66be-408a-bbdf-60b1b55e70ec")
+		(uuid "6dd61f17-f51b-4fcb-932c-230e3ba0bb3e")
 		(effects
 			(font
 				(size 1 1)
@@ -30,7 +30,7 @@
 		(at 0 0 0)
 		(layer "F.Fab")
 		(hide yes)
-		(uuid "5d841d7d-c9ab-4b4a-9216-f800221ec7db")
+		(uuid "cf9402e5-530b-4bf8-adef-3cc5f6488306")
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -41,7 +41,7 @@
 		(at 0 0 0)
 		(layer "F.Fab")
 		(hide yes)
-		(uuid "12503556-3dad-498f-a363-84bf9e2666d1")
+		(uuid "ab3f19c2-dec5-4791-8854-20c9a109e45e")
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -52,7 +52,7 @@
 		(at 0 0 0)
 		(layer "F.Fab")
 		(hide yes)
-		(uuid "89083bea-fbed-4890-a3c3-47c062bde5b0")
+		(uuid "5752140a-59b9-4b3d-b94e-2cafff11607a")
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -69,7 +69,7 @@
 			(type solid)
 		)
 		(layer "F.SilkS")
-		(uuid "fd4811b0-dce7-41f1-a426-6ec006409b49")
+		(uuid "7478a2f6-9fcc-4b26-938b-09721f481248")
 	)
 	(fp_line
 		(start -2.6 1.43)
@@ -79,7 +79,7 @@
 			(type solid)
 		)
 		(layer "F.SilkS")
-		(uuid "6fcb30a1-dff8-44b4-aa09-deb90ed80f05")
+		(uuid "6679422d-fa1f-4b60-9b21-ba75984829c2")
 	)
 	(fp_line
 		(start -0.88 -1.43)
@@ -89,7 +89,7 @@
 			(type solid)
 		)
 		(layer "F.SilkS")
-		(uuid "4f4c96a0-19e9-44d6-8420-b7380ceec933")
+		(uuid "97dfecd2-b193-4058-89f3-9e3d7c51074b")
 	)
 	(fp_line
 		(start 2.59 1.18)
@@ -99,7 +99,7 @@
 			(type solid)
 		)
 		(layer "F.SilkS")
-		(uuid "adcbc4f3-e1b6-4dff-ae2b-21f01320c12e")
+		(uuid "e2101203-9e8f-4c6b-8cf0-73a6fb8b6cf9")
 	)
 	(fp_line
 		(start 2.6 -1.43)
@@ -109,7 +109,7 @@
 			(type solid)
 		)
 		(layer "F.SilkS")
-		(uuid "57d1145e-5350-4cfb-b51f-41d6e81b3ae3")
+		(uuid "6d45d4ff-3bf9-4a11-893e-c7dc828e97a8")
 	)
 	(fp_circle
 		(center -2.61 1.3)
@@ -120,7 +120,7 @@
 		)
 		(fill no)
 		(layer "F.SilkS")
-		(uuid "37172e5e-bdc6-46ac-8c3d-f9a1072bea97")
+		(uuid "f82e55ca-383f-4a72-b7fc-9012bf5e148f")
 	)
 	(fp_poly
 		(pts
@@ -132,7 +132,7 @@
 		)
 		(fill yes)
 		(layer "F.SilkS")
-		(uuid "8b39fae8-21c2-4719-97eb-677b9fece83b")
+		(uuid "3ab690c5-16ef-4b69-8f2e-3230df7a4530")
 	)
 	(fp_poly
 		(pts
@@ -144,7 +144,7 @@
 		)
 		(fill yes)
 		(layer "F.SilkS")
-		(uuid "ff4b8ae7-afaf-4c74-b5b2-b9e92b324e01")
+		(uuid "3ba6aeab-ef5b-47e9-8f4d-299ad9793127")
 	)
 	(fp_line
 		(start -2.16 -1.3)
@@ -154,7 +154,7 @@
 			(type solid)
 		)
 		(layer "F.CrtYd")
-		(uuid "8c92077d-9fe8-45b1-9abe-ed8c45d5fb67")
+		(uuid "36cebb07-5a64-45cd-94c6-510d06a692ae")
 	)
 	(fp_line
 		(start -2.16 1.3)
@@ -164,7 +164,7 @@
 			(type solid)
 		)
 		(layer "F.CrtYd")
-		(uuid "0daaf4a9-b386-4f41-ad8f-a26a14a37975")
+		(uuid "65154afb-a9b4-4495-8eef-c765597937a6")
 	)
 	(fp_line
 		(start 2.16 -1.3)
@@ -174,7 +174,7 @@
 			(type solid)
 		)
 		(layer "F.CrtYd")
-		(uuid "e53e5a77-1698-448b-93ae-3c148cf5abdb")
+		(uuid "ccfcd7a9-465e-4272-a522-9582af791392")
 	)
 	(fp_line
 		(start 2.16 1.3)
@@ -184,12 +184,12 @@
 			(type solid)
 		)
 		(layer "F.CrtYd")
-		(uuid "45416e68-9b9c-4530-b322-dbbc31798b03")
+		(uuid "3840f81c-2143-4f2c-ae05-49c2965a6229")
 	)
 	(fp_text user "${REFERENCE}"
 		(at 0 0 0)
 		(layer "F.Fab")
-		(uuid "2645f489-07d3-4426-9b90-3aa8351e3978")
+		(uuid "bb7a078e-e814-4e30-828c-833624cf7ff6")
 		(effects
 			(font
 				(size 1 1)
@@ -201,16 +201,16 @@
 		(at -2.2 0 180)
 		(size 2 2)
 		(layers "F.Cu" "F.Mask" "F.Paste")
-		(uuid "c2e1acf1-8e98-488c-8f68-2705810bf95f")
+		(uuid "0e5628f5-dc0e-4e38-b5f3-3761a8a5efc9")
 	)
 	(pad "2" smd rect
 		(at 2.2 0 180)
 		(size 2 2)
 		(layers "F.Cu" "F.Mask" "F.Paste")
-		(uuid "78fb3fc3-99fa-4328-8ac5-b3b010ba3bb5")
+		(uuid "5f24d5c1-93bf-446a-b3e0-83aed70cd2d6")
 	)
 	(embedded_fonts no)
-	(model "${KIPRJMOD}/hardware/LCSC_Components.3dshapes/SMA_L4.3-W2.6-LS5.2-RD.wrl"
+	(model "${KIPRJMOD}/../../LCSC/SMA_L4.3-W2.6-LS5.2-RD/LCSC_Components.3dshapes/SMA_L4.3-W2.6-LS5.2-RD.wrl"
 		(offset
 			(xyz 0 0 0)
 		)

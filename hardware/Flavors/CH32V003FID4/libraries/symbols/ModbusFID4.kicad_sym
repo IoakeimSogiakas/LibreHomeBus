@@ -903,7 +903,7 @@
 		)
 		(embedded_fonts no)
 	)
-	(symbol "SMBJ48A_C353356"
+	(symbol "SMBJ48A"
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
@@ -919,7 +919,7 @@
 				)
 			)
 		)
-		(property "Value" "SMBJ48A_C353356"
+		(property "Value" "SMBJ48A"
 			(at -11.43 10.414 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -1006,7 +1006,7 @@
 				)
 			)
 		)
-		(symbol "SMBJ48A_C353356_0_1"
+		(symbol "SMBJ48A_0_1"
 			(polyline
 				(pts
 					(xy -3.81 3.81) (xy -1.27 2.54) (xy -1.27 -2.54) (xy 1.27 -5.08)
@@ -1032,7 +1032,7 @@
 				)
 			)
 		)
-		(symbol "SMBJ48A_C353356_1_1"
+		(symbol "SMBJ48A_1_1"
 			(pin passive line
 				(at -5.08 0 0)
 				(length 3.81)

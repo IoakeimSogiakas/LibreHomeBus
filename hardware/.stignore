@@ -26,3 +26,5 @@ fp-info-cache
 /output/
 /outputs/
 /fabrication/
+.history/
+*.sync-conflict-*
